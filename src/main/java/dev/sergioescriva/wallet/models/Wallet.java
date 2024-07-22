@@ -21,7 +21,7 @@ public class Wallet {
     private String description;
 
     @Column(nullable = false)
-    private Integer proprietary;
+    private Long proprietary;
 
     @Column(nullable = false)
     private Boolean share;
