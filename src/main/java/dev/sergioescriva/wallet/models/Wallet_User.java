@@ -1,5 +1,6 @@
 package dev.sergioescriva.wallet.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,4 +15,10 @@ public class Wallet_User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "wallet_id", nullable = false)
+    private Long walletId;
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
 }
