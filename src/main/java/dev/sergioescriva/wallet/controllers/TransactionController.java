@@ -13,7 +13,7 @@ import dev.sergioescriva.wallet.models.Transaction;
 
 @RestController
 @RequestMapping("/api/transaction")
-public class TransacctionController {
+public class TransactionController {
 
     /*
      * class transactionAddDic(BaseModel):id:Optional[str]=
