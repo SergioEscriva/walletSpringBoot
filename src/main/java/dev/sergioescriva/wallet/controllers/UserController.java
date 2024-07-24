@@ -22,7 +22,7 @@ public class UserController {
         // return user
     }
 
-    @GetMapping("/name/{user_id}")
+    @GetMapping("/name/{userId}")
     public String getUserNameById(@PathVariable Long userId) {
 
         // user = User().userIdName(user_id)
@@ -55,15 +55,12 @@ public class UserController {
         // return user
     }
 
-@PutMapping("/user/pin/{pin_old}/{pin_new}/{user_id}")
+    @PutMapping("/user/pin/{pinOld}/{pinNew}/{userId}")
 
-
-
-
-public void updateUserPinByUserId(@PathVariable Long pinOld, @PathVariable Long pinNew, @PathVariable Long userId):
-    //user = User().update_pin(pin_old, pin_new, user_id)
-    //return user
-}
+    public void updateUserPinByUserId(@PathVariable Long pinOld, @PathVariable Long pinNew, @PathVariable Long userId) {
+        // user = User().update_pin(pin_old, pin_new, user_id)
+        // return user
+    }
 
     @PostMapping("/user/{name}/{pin}")
     public void addPinByUserName(@PathVariable String name, @PathVariable Long pin) {

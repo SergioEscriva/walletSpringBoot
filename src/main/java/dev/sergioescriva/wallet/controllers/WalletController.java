@@ -43,7 +43,7 @@ public class WalletController {
         // return wallet
     }
 
-    @DeleteMapping("/{wallet_id}")
+    @DeleteMapping("/{walletId}")
     public void delWalletById(@PathVariable Long walletId) {
         // wallet = Wallet().deleteWallet(wallet_id)
         // return wallet
@@ -76,7 +76,7 @@ public class WalletController {
         // return wallet
     }
 
-    @GetMapping("/members/{wallet_id}")
+    @GetMapping("/members/{walletId}")
     public void getMembersById(@PathVariable Long walletId) {
         // wallets = Wallet().membersWallet(wallet_id)#[0]["user_id"]
         // return wallets
