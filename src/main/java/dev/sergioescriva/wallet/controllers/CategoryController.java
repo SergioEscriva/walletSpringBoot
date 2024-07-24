@@ -1,5 +1,6 @@
 package dev.sergioescriva.wallet.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -8,14 +9,19 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.sergioescriva.wallet.repositories.CategoryRepository;
+
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
 
+    @Autowired
+    CategoryRepository repository;
+
     @GetMapping
-    public void getAllCategory() {
-        // category = Category().categories()
-        // return category
+    public Iterable<CategoryRepository> getAllCategory() {
+
+        return repository.findAll();
     }
 
     @PutMapping("//{nameOld}/{nameNew}")
