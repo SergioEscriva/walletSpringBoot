@@ -1,8 +1,11 @@
 package dev.sergioescriva.wallet.controllers;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,62 +16,64 @@ public class UserController {
 
     // members
 
-@GetMapping('/user')
-public void get_user(){
-    //user = User().users()
-    //return user
-}
+    @GetMapping("/users")
+    public void getUser() {
+        // user = User().users()
+        // return user
+    }
 
-    @GetMapping("/user/name/{user_id}")
-    public String getMethodName(@PathVariable String param) {
+    @GetMapping("/name/{user_id}")
+    public String getUserNameById(@PathVariable Long userId) {
 
         // user = User().userIdName(user_id)
 
         return new String();
     }
 
-def get_user_name(user_id :int):
+    @GetMapping("/user/{userName}")
+    public String getUserNamebyName(@PathVariable String userName) {
+        // user = User().userNameId(user_name)
+        // return user
+        return new String();
+    }
+
+    @GetMapping("/pin/{userId}")
+    public void getPinByUserId(@PathVariable Long userId) {
+        // user = User().pin(user_id)
+        // return user
+    }
+
+    @PutMapping("/user/nickname/{nameOld}/{nameNew}")
+    public void updateNickname(@PathVariable String nameOld, @PathVariable String nameNew) {
+        // user = User().update_nickname(name_old, name_new)
+        // return user
+    }
+
+    @PutMapping("/user/{nameOld}/{nameNew}")
+    public void updateUserName(@PathVariable String nameOld, @PathVariable String nameNew) {
+        // user = User().update_user(name_old, name_new)
+        // return user
+    }
+
+@PutMapping("/user/pin/{pin_old}/{pin_new}/{user_id}")
 
 
-@users.get('/user/id/{user_name}')
 
-def get_user_id(user_name :str):
-    user = User().userNameId(user_name)
-    return user
 
-@users.get('/user/pin/{user_id}')
+public void updateUserPinByUserId(@PathVariable Long pinOld, @PathVariable Long pinNew, @PathVariable Long userId):
+    //user = User().update_pin(pin_old, pin_new, user_id)
+    //return user
+}
 
-def get_user_id(user_id :int):
-    user = User().pin(user_id)
-    return user
+    @PostMapping("/user/{name}/{pin}")
+    public void addPinByUserName(@PathVariable String name, @PathVariable Long pin) {
+        // user = User().new(name, pin)
+        // return user
+    }
 
-@users.put("/user/nickname/{name_old}/{name_new}")
-
-def update_user(name_old :str, name_new :str):
-    user = User().update_nickname(name_old, name_new)
-    return user
-
-@users.put("/user/{name_old}/{name_new}")
-
-def update_user(name_old :str, name_new :str):
-    user = User().update_user(name_old, name_new)
-    return user
-
-@users.put("/user/pin/{pin_old}/{pin_new}/{user_id}")
-
-def update_user(pin_old :int, pin_new :int, user_id :int):
-    user = User().update_pin(pin_old, pin_new, user_id)
-    return user
-
-@users.post("/user/{name}/{pin}")
-
-def add_user(name :str, pin :str):
-    user = User().new(name, pin)
-    return user
-
-@users.delete("/user/{del_id}")
-
-def del_user(del_id :int):
-    user = User().delete(del_id)
-    return user
+    @DeleteMapping("/user/{delId}")
+    public void delUserById(@PathVariable Long delId) {
+        // user = User().delete(del_id)
+        // return user
+    }
 }
