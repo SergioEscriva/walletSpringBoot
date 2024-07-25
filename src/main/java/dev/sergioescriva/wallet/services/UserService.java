@@ -8,9 +8,9 @@ public interface UserService {
 
     List<User> getUser();
 
-    String getUserNameById(Long userId);
+    User getUserNameById(Long userId);
 
-    String getUserNamebyName(String userName);
+    User getUserIdbyName(String userName);
 
     void getPinByUserId(Long userId);
 

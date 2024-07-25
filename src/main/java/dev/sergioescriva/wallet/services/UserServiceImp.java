@@ -2,6 +2,7 @@ package dev.sergioescriva.wallet.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,15 +30,25 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public String getUserNameById(Long userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserNameById'");
+    public User getUserNameById(Long userId) {
+        Optional<User> user = repository.findById(userId);
+        if (user.isPresent()) {
+            return user.get();
+        }
+        return null;
     }
 
     @Override
-    public String getUserNamebyName(String userName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserNamebyName'");
+    public User getUserIdByName(String userName) {
+        Iterable<User> users = repository.findAll();
+        for (User user : users) {
+            if (user.getUsername().equals(userName)) {
+                return user;
+            }
+
+        }
+
+        return null;
     }
 
     @Override

@@ -31,14 +31,12 @@ public class UserController {
     }
 
     @GetMapping("/name/{userId}")
-    public String getUserNameById(@PathVariable Long userId) {
+    public User getUserNameById(@PathVariable Long userId) {
 
-        // user = User().userIdName(user_id)
-
-        return new String();
+        return service.getUserNameById(userId);
     }
 
-    @GetMapping("/user/{userName}")
+    @GetMapping("/name/{userName}")
     public String getUserNamebyName(@PathVariable String userName) {
         // user = User().userNameId(user_name)
         // return user
