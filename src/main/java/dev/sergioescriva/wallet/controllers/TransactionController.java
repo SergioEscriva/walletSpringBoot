@@ -15,22 +15,6 @@ import dev.sergioescriva.wallet.models.Transaction;
 @RequestMapping("/api/transaction")
 public class TransactionController {
 
-    /*
-     * class transactionAddDic(BaseModel):id:Optional[str]=
-     * None
-     * category:
-     * str
-     * description:
-     * str
-     * amount:
-     * float user_id:
-     * str
-     * date:Optional[str]=
-     * None
-     * wallet_id:
-     * int participants:
-     * list
-     */// transactions
     @GetMapping("/{walletId}")
     public void getAllTransactionByWalletId(@PathVariable Long walletId) {
         // transaction = Transaction().transactions(wallet_id)

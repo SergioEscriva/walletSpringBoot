@@ -1,8 +1,12 @@
 package dev.sergioescriva.wallet.services;
 
+import java.util.List;
+
+import dev.sergioescriva.wallet.models.User;
+
 public interface UserService {
 
-    void getUser();
+    List<User> getUser();
 
     String getUserNameById(Long userId);
 

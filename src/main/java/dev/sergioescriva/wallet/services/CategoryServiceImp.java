@@ -22,7 +22,7 @@ public class CategoryServiceImp implements CategoryService {
         for (Category category : categories) {
             list.add(category);
         }
-        System.out.println(list);
+
         return list;
     }
 

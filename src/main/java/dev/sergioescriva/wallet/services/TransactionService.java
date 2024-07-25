@@ -1,5 +1,7 @@
 package dev.sergioescriva.wallet.services;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 import dev.sergioescriva.wallet.models.Transaction;
@@ -23,11 +25,11 @@ public interface TransactionService {
      * list
      */// transactions
 
-    void getAllTransactionByWalletId(Long walletId);
+    List<Transaction> getAllTransactionByWalletId(Long walletId);
 
-    void getTransactionById(Long transactionId);
+    Transaction getTransactionById(Long transactionId);
 
-    void getBalanceById(Long walletId);
+    Double getBalanceById(Long walletId);
 
     void getBalanceMinById(Long walletId);
 

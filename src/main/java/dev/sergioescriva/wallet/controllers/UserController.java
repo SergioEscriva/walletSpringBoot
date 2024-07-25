@@ -1,5 +1,8 @@
 package dev.sergioescriva.wallet.controllers;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,17 +12,22 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.sergioescriva.wallet.models.User;
+import dev.sergioescriva.wallet.services.UserService;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/user")
 public class UserController {
 
+    @Autowired
+    UserService service;
+
     // members
 
-    @GetMapping("/users")
-    public void getUser() {
-        // user = User().users()
-        // return user
+    @GetMapping
+    public List<User> getUser() {
+        return service.getUser();
     }
 
     @GetMapping("/name/{userId}")
