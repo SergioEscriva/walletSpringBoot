@@ -52,39 +52,69 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void getPinByUserId(Long userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPinByUserId'");
+    public User getPinByUserId(Long userId) {
+        Optional<User> user = repository.findById(userId);
+        if (user.isPresent()) {
+            return user.get();
+        }
+        return null;
     }
 
     @Override
-    public void updateNickname(String nameOld, String nameNew) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateNickname'");
+    public void updateNicknameByUserId(Long userId, String nameNew) {
+        Optional<User> user = repository.findById(userId);
+        if (user.isPresent()) {
+            User userActual = user.get();
+            userActual.setNickname(nameNew);
+            repository.save(userActual);
+        }
+
     }
 
     @Override
-    public void updateUserName(String nameOld, String nameNew) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateUserName'");
+    public void updateUserNameByUserId(Long userId, String nameNew) {
+        Optional<User> user = repository.findById(userId);
+        if (user.isPresent()) {
+            User userActual = user.get();
+            userActual.setUsername(nameNew);
+            repository.save(userActual);
+        }
     }
 
     @Override
-    public void updateUserPinByUserId(Long pinOld, Long pinNew, Long userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateUserPinByUserId'");
+    public void updateUserPinByUserId(String pinOld, String pinNew, Long userId) {
+        Optional<User> user = repository.findById(userId);
+        User userActual = user.get();
+        if (userActual.getId().equals(userId) && userActual.getPassword().equals(pinOld)) {
+
+            userActual.setPassword(pinNew);
+            repository.save(userActual);
+        }
     }
 
     @Override
-    public void addPinByUserName(String name, Long pin) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addPinByUserName'");
+    public void addPinByUserId(Long userId, String pin) {
+        Optional<User> user = repository.findById(userId);
+        User userActual = user.get();
+        if (userActual.getId().equals(userId)) {
+
+            userActual.setPassword(pin);
+            repository.save(userActual);
+        }
     }
 
     @Override
     public void delUserById(Long delId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delUserById'");
+        repository.deleteById(delId);
+    }
+
+    @Override
+    public void addUser(String userName, String nickusername, String pin) {
+        User newUser = new User();
+        newUser.setUsername(userName);
+        newUser.setNickname(nickusername);
+        newUser.setPassword(pin);
+        repository.save(newUser);
     }
 
 }

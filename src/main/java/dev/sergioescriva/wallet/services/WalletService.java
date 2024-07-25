@@ -1,18 +1,23 @@
 package dev.sergioescriva.wallet.services;
 
+import java.util.List;
+
+import dev.sergioescriva.wallet.models.Wallet;
+import dev.sergioescriva.wallet.models.WalletUser;
+
 public interface WalletService {
 
-    String getWalletByPropietary(Long proprietaryId);
+    List<Wallet> getWalletByPropietary(Long proprietaryId);
 
-    String getWalletByName(String walletName);
+    Wallet getWalletByName(String walletName);
 
     void addWallet(String walletName, Long proprietaryId);
 
-    void updateWalletName(String nameOld, String nameNew);
+    Wallet updateWalletName(Long walletId, String nameNew);
 
     void delWalletById(Long walletId);
 
-    void getDescriptionById(Long walletId);
+    Wallet getDescriptionById(Long walletId);
 
     void updateDescription(Long walletId, String description);
 
@@ -20,7 +25,7 @@ public interface WalletService {
 
     void updateShareById(Long walletId, Boolean share);
 
-    void getMembersById(Long walletId);
+    List<WalletUser> getMembersById(Long walletId);
 
     void addMemberToWalletId(Long walletId, String membeName,
             Integer pin);

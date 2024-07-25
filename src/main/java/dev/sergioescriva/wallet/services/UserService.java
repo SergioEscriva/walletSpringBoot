@@ -8,19 +8,21 @@ public interface UserService {
 
     List<User> getUser();
 
+    void addUser(String userName, String nickusername, String pin);
+
     User getUserNameById(Long userId);
 
-    User getUserIdbyName(String userName);
+    User getUserIdByName(String userName);
 
-    void getPinByUserId(Long userId);
+    User getPinByUserId(Long userId);
 
-    void updateNickname(String nameOld, String nameNew);
+    void updateNicknameByUserId(Long userId, String nameNew);
 
-    void updateUserName(String nameOld, String nameNew);
+    void updateUserNameByUserId(Long userId, String nameNew);
 
-    void updateUserPinByUserId(Long pinOld, Long pinNew, Long userId);
+    void updateUserPinByUserId(String pinOld, String pinNew, Long userId);
 
-    void addPinByUserName(String name, Long pin);
+    void addPinByUserId(Long userId, String pin);
 
     void delUserById(Long delId);
 }

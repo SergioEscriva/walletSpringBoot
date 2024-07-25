@@ -33,8 +33,10 @@ public class CategoryServiceImp implements CategoryService {
     }
 
     @Override
-    public void addCategory(Category name) {
-        repository.save(name);
+    public void addCategory(String name) {
+        Category categoryNew = new Category();
+        categoryNew.setCategory(name);
+        repository.save(categoryNew);
     }
 
     @Override

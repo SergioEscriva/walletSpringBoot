@@ -37,8 +37,8 @@ public class WalletController {
 
     }
 
-    @PutMapping("/{nameOld}/{nameNew}")
-    public void updateWalletName(@PathVariable String nameOld, @PathVariable String nameNew) {
+    @PutMapping("/{id}/{nameNew}")
+    public void updateWalletName(@PathVariable Long id, @PathVariable String nameNew) {
         // wallet = Wallet().updateWallet(name_old, name_new)
         // return wallet
     }

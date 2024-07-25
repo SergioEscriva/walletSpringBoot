@@ -37,46 +37,43 @@ public class UserController {
     }
 
     @GetMapping("/name/{userName}")
-    public String getUserNamebyName(@PathVariable String userName) {
-        // user = User().userNameId(user_name)
-        // return user
-        return new String();
+    public User getUserIdByName(@PathVariable String userName) {
+
+        return service.getUserIdByName(userName);
     }
 
     @GetMapping("/pin/{userId}")
-    public void getPinByUserId(@PathVariable Long userId) {
-        // user = User().pin(user_id)
-        // return user
+    public User getPinByUserId(@PathVariable Long userId) {
+        return service.getPinByUserId(userId);
     }
 
     @PutMapping("/user/nickname/{nameOld}/{nameNew}")
-    public void updateNickname(@PathVariable String nameOld, @PathVariable String nameNew) {
-        // user = User().update_nickname(name_old, name_new)
-        // return user
+    public void updateNickname(@PathVariable Long userId, @PathVariable String nameNew) {
+        service.updateNicknameByUserId(userId, nameNew);
+
     }
 
-    @PutMapping("/user/{nameOld}/{nameNew}")
-    public void updateUserName(@PathVariable String nameOld, @PathVariable String nameNew) {
-        // user = User().update_user(name_old, name_new)
-        // return user
+    @PutMapping("/user/{userId}/{nameNew}")
+    public void updateUserName(@PathVariable Long userId, @PathVariable String nameNew) {
+
+        service.updateUserNameByUserId(userId, nameNew);
+
     }
 
     @PutMapping("/user/pin/{pinOld}/{pinNew}/{userId}")
 
-    public void updateUserPinByUserId(@PathVariable Long pinOld, @PathVariable Long pinNew, @PathVariable Long userId) {
-        // user = User().update_pin(pin_old, pin_new, user_id)
-        // return user
+    public void updateUserPinByUserId(@PathVariable String pinOld, @PathVariable String pinNew,
+            @PathVariable Long userId) {
+        service.updateUserPinByUserId(pinOld, pinNew, userId);
     }
 
-    @PostMapping("/user/{name}/{pin}")
-    public void addPinByUserName(@PathVariable String name, @PathVariable Long pin) {
-        // user = User().new(name, pin)
-        // return user
+    @PostMapping("/user/{userId}/{pin}")
+    public void addPinByUserName(@PathVariable Long userId, @PathVariable String pin) {
+        service.addPinByUserId(userId, pin);
     }
 
     @DeleteMapping("/user/{delId}")
     public void delUserById(@PathVariable Long delId) {
-        // user = User().delete(del_id)
-        // return user
+        service.delUserById(delId);
     }
 }
