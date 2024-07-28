@@ -99,7 +99,7 @@ public class WalletController {
         // return wallets
     }
 
-    @PostMapping("/{walletId}/member/{memberId}/{pin}")
+    @PostMapping("/members/{walletId}/member/{memberId}/{pin}")
     public void addMemberToWalletId(@PathVariable Long walletId, @PathVariable Long membeId,
             @PathVariable Integer pin) {
         service.addMemberToWalletId(walletId, membeId, pin);
@@ -107,7 +107,7 @@ public class WalletController {
         // return wallet
     }
 
-    @DeleteMapping("/{walletId}/member/{delId}")
+    @DeleteMapping("/members/{walletId}/member/{delId}")
     public void delMemberToWalletId(@PathVariable Long walletId, @PathVariable Long delId) {
         service.delMemberToWalletId(walletId, delId);
         // wallet = Wallet().deleteMember(wallet_id, del_id)

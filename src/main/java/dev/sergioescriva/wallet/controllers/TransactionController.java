@@ -16,7 +16,7 @@ import dev.sergioescriva.wallet.models.Transaction;
 import dev.sergioescriva.wallet.services.TransactionService;
 
 @RestController
-@RequestMapping("/api/transaction")
+@RequestMapping("/api/transactions")
 public class TransactionController {
 
     @Autowired

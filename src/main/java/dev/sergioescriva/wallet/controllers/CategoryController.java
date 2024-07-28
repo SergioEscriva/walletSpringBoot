@@ -17,7 +17,7 @@ import dev.sergioescriva.wallet.services.CategoryService;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/category")
+@RequestMapping("/api/categories")
 public class CategoryController {
 
     @Autowired
