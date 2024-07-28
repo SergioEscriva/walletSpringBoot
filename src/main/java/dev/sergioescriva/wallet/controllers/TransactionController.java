@@ -1,5 +1,7 @@
 package dev.sergioescriva.wallet.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,24 +22,24 @@ public class TransactionController {
     @Autowired
     TransactionService service;
 
-    @GetMapping("/{walletId}")
-    public void getAllTransactionByWalletId(@PathVariable Long walletId) {
-        service.getAllTransactionByWalletId(walletId);
+    @GetMapping("/wallet/{walletId}")
+    public List<Transaction> getAllTransactionByWalletId(@PathVariable Long walletId) {
+        return service.getAllTransactionByWalletId(walletId);
         // transaction = Transaction().transactions(wallet_id)
         // return transaction
     }
 
     @GetMapping("/{transactionId}")
-    public void getTransactionById(@PathVariable Long transactionId) {
-        service.getTransactionById(transactionId);
+    public Transaction getTransactionById(@PathVariable Long transactionId) {
+        return service.getTransactionById(transactionId);
         // transaction = Transaction().transaction(transaction_id)
         // return transaction
 
     }
 
     @GetMapping("/balance/{walletId}")
-    public void getBalanceById(@PathVariable Long walletId) {
-        service.getBalanceById(walletId);
+    public Double getBalanceById(@PathVariable Long walletId) {
+        return service.getBalanceById(walletId);
         // transaction = Transaction().amountTotal(wallet_id)
         // return transaction
 

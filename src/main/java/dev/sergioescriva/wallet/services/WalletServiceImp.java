@@ -55,19 +55,19 @@ public class WalletServiceImp implements WalletService {
     public void addWallet(String walletName, Long proprietaryId) {
         Iterable<Wallet> wallets = repository.findAll();
         List<Wallet> walletsList = new ArrayList<>();
-        for(Wallet wallet : wallets){
+        for (Wallet wallet : wallets) {
             walletsList.add(wallet);
 
         }
-                
+
         if (!walletsList.contains(walletName)) {
             Wallet walletNew = new Wallet();
             walletNew.setName(walletName);
-            walletNew.setProprietaryId(proprietaryId);(proprietaryId);
+            walletNew.setProprietaryId(proprietaryId);
             repository.save(walletNew);
-            
+
         }
-        
+
     }
 
     @Override
@@ -177,7 +177,6 @@ public class WalletServiceImp implements WalletService {
             membersRepository.save(newMember);
         }
 
-        return null;
     }
 
     @Override

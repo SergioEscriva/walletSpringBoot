@@ -52,7 +52,7 @@ public class TransactionServiceImp implements TransactionService {
 
     @Override
     public void getBalanceMinById(Long walletId) {
-        // TODO Auto-generated method stub
+
         throw new UnsupportedOperationException("Unimplemented method 'getBalanceMinById'");
     }
 

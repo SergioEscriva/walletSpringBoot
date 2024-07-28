@@ -1,5 +1,7 @@
 package dev.sergioescriva.wallet.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.sergioescriva.wallet.models.Wallet;
+import dev.sergioescriva.wallet.models.WalletUser;
 import dev.sergioescriva.wallet.services.WalletService;
 
 @RestController
@@ -22,20 +26,18 @@ public class WalletController {
 
     @CrossOrigin
     @GetMapping("/{proprietaryId}")
-    public String getWalletByPropietary(@PathVariable Long proprietaryId) {
-        service.getWalletByPropietary(proprietaryId);
+    public List<Wallet> getWalletByPropietary(@PathVariable Long proprietaryId) {
+        return service.getWalletByPropietary(proprietaryId);
         // wallets = Wallet().readWallets(proprietary)
         // Wallet wallets =.
-        System.out.println("propietariooooooos");
 
-        return new String();
     }
 
     @GetMapping("/id/{walletName}")
-    public String getWalletByName(@PathVariable String walletName) {
-        service.getWalletByName(walletName);
+    public Wallet getWalletByName(@PathVariable String walletName) {
+        return service.getWalletByName(walletName);
         // wallet = Wallet().walletNameToId(wallet_name)
-        return new String();
+
     }
 
     @PostMapping("/{walletName}/{proprietaryId}")
@@ -63,8 +65,8 @@ public class WalletController {
     // description
 
     @GetMapping("/description/{walletId}")
-    public void getDescriptionById(@PathVariable Long walletId) {
-        service.getDescriptionById(walletId);
+    public Wallet getDescriptionById(@PathVariable Long walletId) {
+        return service.getDescriptionById(walletId);
         // wallets = Wallet().readDescription(wallet_id)
         // return wallets
     }
@@ -91,8 +93,8 @@ public class WalletController {
     }
 
     @GetMapping("/members/{walletId}")
-    public void getMembersById(@PathVariable Long walletId) {
-        service.getMembersById(walletId);
+    public List<WalletUser> getMembersById(@PathVariable Long walletId) {
+        return service.getMembersById(walletId);
         // wallets = Wallet().membersWallet(wallet_id)#[0]["user_id"]
         // return wallets
     }
