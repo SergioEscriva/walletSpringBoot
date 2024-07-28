@@ -16,13 +16,13 @@ import dev.sergioescriva.wallet.models.Transaction;
 import dev.sergioescriva.wallet.services.TransactionService;
 
 @RestController
-@RequestMapping("/api/transactions")
+@RequestMapping("/api/transaction")
 public class TransactionController {
 
     @Autowired
     TransactionService service;
 
-    @GetMapping("/wallet/{walletId}")
+    @GetMapping("/transactions/{walletId}")
     public List<Transaction> getAllTransactionByWalletId(@PathVariable Long walletId) {
         return service.getAllTransactionByWalletId(walletId);
         // transaction = Transaction().transactions(wallet_id)

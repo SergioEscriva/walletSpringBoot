@@ -241,7 +241,7 @@ export class WalletManager {
             <div id="transac_id${transaction.id}" title="${transaction.id}" class="cuadricula">
                 <div>${transaction.description}</div>
                 <div>${transaction.amount}€</div>
-                <div>${transaction.name}</div>
+                <div>${transaction.userId}</div>
                 <div>${transaction.category}</div>
                 <div style="font-size: 10px">${transaction.participants}</div>
                 <div>${transaction.date}</div>
