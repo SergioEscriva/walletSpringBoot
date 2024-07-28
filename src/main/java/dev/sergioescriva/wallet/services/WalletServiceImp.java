@@ -160,21 +160,55 @@ public class WalletServiceImp implements WalletService {
     }
 
     @Override
-    public void addMemberToWalletId(Long walletId, String membeName, Integer pin) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addMemberToWalletId'");
+    public void addMemberToWalletId(Long walletId, Long memberId, Integer pin) {
+        Iterable<WalletUser> members = membersRepository.findAll();
+
+        List<WalletUser> membersList = new ArrayList<>();
+        for (WalletUser memberActual : members) {
+            if (memberActual.getWalletId().equals(walletId)) {
+                membersList.add(memberActual);
+            }
+
+        }
+        if (!membersList.contains(memberId)) {
+            WalletUser newMember = new WalletUser();
+            newMember.setWalletId(walletId);
+            newMember.setUserId(memberId);
+            membersRepository.save(newMember);
+        }
+
+        return null;
     }
 
     @Override
     public void delMemberToWalletId(Long walletId, Long delId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delMemberToWalletId'");
+        Iterable<WalletUser> members = membersRepository.findAll();
+
+        List<WalletUser> membersList = new ArrayList<>();
+        for (WalletUser memberActual : members) {
+            if (memberActual.getWalletId().equals(walletId)) {
+                membersList.add(memberActual);
+            }
+
+        }
+        if (!membersList.contains(delId)) {
+            WalletUser newMember = new WalletUser();
+            newMember.setWalletId(walletId);
+            newMember.setUserId(delId);
+            membersRepository.delete(newMember);
+        }
+
     }
 
     @Override
     public void updateProprietaryByWalletId(Long walletId, Long proprietary) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateProprietaryByWalletId'");
+        Optional<Wallet> wallet = repository.findById(walletId);
+        if (wallet.isPresent()) {
+            Wallet walletUpdate = wallet.get();
+            walletUpdate.setProprietaryId(proprietary);
+            repository.save(walletUpdate);
+        }
+
     }
 
 }

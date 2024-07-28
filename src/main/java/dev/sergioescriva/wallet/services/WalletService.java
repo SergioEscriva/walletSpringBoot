@@ -27,7 +27,7 @@ public interface WalletService {
 
     List<WalletUser> getMembersById(Long walletId);
 
-    void addMemberToWalletId(Long walletId, String membeName,
+    void addMemberToWalletId(Long walletId, Long membeId,
             Integer pin);
 
     void delMemberToWalletId(Long walletId, Long delId);

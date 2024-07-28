@@ -1,5 +1,6 @@
 package dev.sergioescriva.wallet.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,19 +11,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.sergioescriva.wallet.models.Transaction;
+import dev.sergioescriva.wallet.services.TransactionService;
 
 @RestController
 @RequestMapping("/api/transaction")
 public class TransactionController {
 
+    @Autowired
+    TransactionService service;
+
     @GetMapping("/{walletId}")
     public void getAllTransactionByWalletId(@PathVariable Long walletId) {
+        service.getAllTransactionByWalletId(walletId);
         // transaction = Transaction().transactions(wallet_id)
         // return transaction
     }
 
     @GetMapping("/{transactionId}")
     public void getTransactionById(@PathVariable Long transactionId) {
+        service.getTransactionById(transactionId);
         // transaction = Transaction().transaction(transaction_id)
         // return transaction
 
@@ -30,6 +37,7 @@ public class TransactionController {
 
     @GetMapping("/balance/{walletId}")
     public void getBalanceById(@PathVariable Long walletId) {
+        service.getBalanceById(walletId);
         // transaction = Transaction().amountTotal(wallet_id)
         // return transaction
 
@@ -43,6 +51,7 @@ public class TransactionController {
 
     @PostMapping("/transaction/")
     public void addTransaction(@RequestBody Transaction transaction) {
+        service.addTransaction(transaction);
         // public void addTransaction(data_transaction: transactionAddDic){
         // data_transaction_dic = data_transaction.dict()
         // transaction = Transaction().add(data_transaction_dic)
@@ -51,6 +60,7 @@ public class TransactionController {
 
     @PutMapping
     public void updateTransaction(@RequestBody Transaction transaction) {
+        service.updateTransaction(transaction);
         // public void updateTransaction(data_transaction: transactionAddDic){
         // data_transaction_dic = data_transaction.dict()
         // transaction = Transaction().update(data_transaction_dic)
@@ -59,6 +69,7 @@ public class TransactionController {
 
     @DeleteMapping("/{del_id}")
     public void delTransactionById(@PathVariable Long delId) {
+        service.delTransactionById(delId);
         // transaction = Transaction().delete(del_id)
         // return transaction
     }
