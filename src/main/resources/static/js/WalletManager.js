@@ -245,13 +245,16 @@ export class WalletManager {
       const userNameTransaction = await RequestGet.getIdName(
         transaction.userId
       );
+      const categoryTransacction = await RequestGet.getCategoryById(
+        transaction.category
+      );
       transactions.innerHTML += `
             <div id="transac_idid" title="${transaction.id}">
             <div id="transac_id${transaction.id}" title="${transaction.id}" class="cuadricula">
                 <div>${transaction.description}</div>
                 <div>${transaction.amount}€</div>
                 <div>${userNameTransaction.username}</div>
-                <div>${transaction.category}</div>
+                <div>${categoryTransacction.category}</div>
                 <div style="font-size: 10px">${transaction.participants}</div>
                 <div>${transaction.date}</div>
             </div></div>`;

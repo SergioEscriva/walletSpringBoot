@@ -67,6 +67,12 @@ export class RequestGet {
     return await RequestGet._getRequest(url);
   }
 
+  static async getCategoryById(categoriesId) {
+    const url = UrlPath.URL.CATEGORIES + categoriesId;
+    return await RequestGet._getRequest(url);
+  }
+  getC;
+
   //REQUEST
 
   static async _getRequest(url) {

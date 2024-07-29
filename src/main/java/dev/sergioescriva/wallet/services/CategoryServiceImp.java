@@ -2,6 +2,7 @@ package dev.sergioescriva.wallet.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,17 @@ public class CategoryServiceImp implements CategoryService {
         }
 
         return list;
+    }
+
+    @Override
+    public Category getCategoryNameById(Long categoryId) {
+        Optional<Category> category = repository.findById(categoryId);
+
+        if (category.isPresent()) {
+            return category.get();
+        }
+        return null;
+
     }
 
     @Override
