@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.sergioescriva.wallet.models.Transaction;
+import dev.sergioescriva.wallet.models.User;
 import dev.sergioescriva.wallet.services.TransactionService;
 
 @RestController
@@ -45,8 +46,9 @@ public class TransactionController {
 
     }
 
-    @GetMapping("/balance_min/{walletId}")
-    public void getBalanceMinById(@PathVariable Long walletId) {
+    @GetMapping("/balanceMin/{walletId}")
+    public User getBalanceMinById(@PathVariable Long walletId) {
+        return service.getBalanceMinById(walletId);
         // transaction = Transaction().balance(wallet_id)["member_min"]
         // return transaction
     }

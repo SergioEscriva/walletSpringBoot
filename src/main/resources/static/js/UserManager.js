@@ -2,7 +2,6 @@
 //import { WalletManager } from './WalletManager.js'
 //import { RequestDel } from './RequestDel.js'
 import { RequestGet } from "./RequestGet.js";
-import { RequestPost } from "./RequestPost.js";
 //import { RequestPut } from './RequestPut.js'
 
 export class UserManager {
@@ -26,24 +25,20 @@ export class UserManager {
   async addUserNew() {
     const name_add = document.getElementById("name-username").value;
     const pin_add = document.getElementById("pin-username").value;
-    const respuesta = await RequestPost.postUser(name_add, pin_add);
-    console.log(respuesta);
-    if (respuesta === false) {
-      document
-        .getElementById("name-username")
-        .classList.add("changeInputError");
-    } else {
-      UserManager.permanentUserSave();
-    }
+    let users = await RequestGet.getUsers();
+    users.forEach((user) => {
+      console.log("Guadando Usuario Permanente " + name_add + " -- " + pin_add);
+      UserManager.permanentUserSave(name_add, pin_add);
+    });
+
+    document.getElementById("name-username").classList.add("changeInputError");
   }
 
-  static async permanentUserSave() {
-    const name_add = document.getElementById("name-username").value;
-    const pin_add = document.getElementById("pin-username").value;
-    let user_id = await RequestGet.getUserId(name_add);
-    user_id = user_id.id;
+  static async permanentUserSave(name_add, pin_add) {
+    let userId = await RequestGet.getUserId(name_add);
+    console.log("YYYYYeeeeepppppPP " + userId + " y " + pin_add);
     let objet = {
-      Id: user_id,
+      Id: userId,
       Pin: pin_add,
     };
     objet = JSON.stringify(objet);
@@ -52,8 +47,9 @@ export class UserManager {
   }
 
   static async permanentUserRead() {
-    let objet_load = localStorage.getItem("key");
-    objet_load = JSON.parse(objet_load);
+    //let objet_load = localStorage.getItem("key");
+    //objet_load = JSON.parse(objet_load);
+    console.log("LocalStorage " + localStorage.length);
     if (localStorage.length == 0) {
       document.querySelector("#container").classList.remove("hidden");
     } else {

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import dev.sergioescriva.wallet.models.Transaction;
+import dev.sergioescriva.wallet.models.User;
 
 public interface TransactionService {
 
@@ -31,7 +32,7 @@ public interface TransactionService {
 
     Double getBalanceById(Long walletId);
 
-    void getBalanceMinById(Long walletId);
+    User getBalanceMinById(Long walletId);
 
     void addTransaction(@RequestBody Transaction transaction);
 

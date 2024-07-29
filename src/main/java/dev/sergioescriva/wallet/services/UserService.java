@@ -6,9 +6,9 @@ import dev.sergioescriva.wallet.models.User;
 
 public interface UserService {
 
-    List<User> getUser();
+    List<User> getUsers();
 
-    void addUser(String userName, String nickusername, String pin);
+    void addUserByName(String userName, String nickusername, String pin);
 
     User getUserNameById(Long userId);
 

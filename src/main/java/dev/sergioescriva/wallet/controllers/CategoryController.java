@@ -23,7 +23,7 @@ public class CategoryController {
     @Autowired
     private CategoryService service;
 
-    @GetMapping
+    @GetMapping("/categories")
     public List<Category> getAllCategory() {
         return service.getAllCategory();
 

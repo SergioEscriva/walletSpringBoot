@@ -224,6 +224,7 @@ export class WalletManager {
     const division = await RequestGet.getDivision(selectedWalletId);
     const membersData = await RequestGet.getMembers(selectedWalletId);
     const transactions = WalletManager.domElements.transactions;
+
     transactions.innerHTML = "";
     transactions.innerHTML += `
         <div id="transac_idid" title="0"><B>
@@ -236,12 +237,13 @@ export class WalletManager {
             <div>Fecha</div>
         </div></B></div>`;
     transactionsData.forEach((transaction) => {
+      const userName = RequestGet.getIdName(transaction.userId);
       transactions.innerHTML += `
             <div id="transac_idid" title="${transaction.id}">
             <div id="transac_id${transaction.id}" title="${transaction.id}" class="cuadricula">
                 <div>${transaction.description}</div>
                 <div>${transaction.amount}€</div>
-                <div>${transaction.userId}</div>
+                <div>${userName}</div>
                 <div>${transaction.category}</div>
                 <div style="font-size: 10px">${transaction.participants}</div>
                 <div>${transaction.date}</div>
@@ -262,8 +264,8 @@ export class WalletManager {
     balanceElement.innerHTML = `
         <div class="cuadricula">
                 <div>TOTAL:</div>
-                <div><B>${balance.amount}€</B></div>
-                <div>Debería Pagar: <B>${balancemin.member_id}</B></div>
+                <div><B>${balance}€</B></div>
+                <div>Debería Pagar: <B>${balancemin.username}</B></div>
                 <div><B>Miembros: </B></div>`;
     membersData.forEach((member) => {
       balanceElement.innerHTML += `
@@ -274,6 +276,13 @@ export class WalletManager {
     divisions.innerHTML = "";
     WalletManager.domElements.division.innerHTML = `<div>${division}</div><hr/>`;
     WalletManager.showTransac();
+  }
+
+  async userIdToUserName(userId) {
+    //let userId = transactions.userId;
+    let userName = await RequestGet.getIdName(userId);
+    console.log("HOooooola " + userName);
+    return userName;
   }
 
   menuConfig() {
@@ -397,22 +406,22 @@ export class WalletManager {
     const membersSelector = document.getElementById("membersEdit-selector");
     members.forEach((members) => {
       membersSelector.innerHTML += `
-            <div id='GroupMember${members.user_id}' class='GroupMember' data-member-id="${members.user_id}" data-member-name="${members.name}" data-member-nickname="${members.nickname}">
+            <div id='GroupMember${members.userId}' class='GroupMember' data-member-id="${members.userId}" data-member-name="${members.name}" data-member-nickname="${members.nickname}">
               
-                <button id="buttonDel${members.user_id}" class="mini-button">&#10062;</button>
+                <button id="buttonDel${members.userId}" class="mini-button">&#10062;</button>
 
-                <input type="text" id="Member${members.user_id}" value="${members.nickname}"></input>
+                <input type="text" id="Member${members.userId}" value="${members.nickname}"></input>
                
-                <button id="buttonEdit${members.user_id}" class="mini-button-hidden">&#9989;</button>
+                <button id="buttonEdit${members.userId}" class="mini-button-hidden">&#9989;</button>
             </div>`;
       const proprietary =
         document.querySelector("#name-proprietary").dataset.idProprietary;
-      if (members.user_id == proprietary) {
+      if (members.userId == proprietary) {
         document
-          .querySelector("#buttonEdit" + members.user_id)
+          .querySelector("#buttonEdit" + members.userId)
           .classList.remove("mini-button-hidden");
         document
-          .querySelector("#buttonEdit" + members.user_id)
+          .querySelector("#buttonEdit" + members.userId)
           .classList.add("mini-button");
       }
     });
@@ -521,8 +530,8 @@ export class WalletManager {
       });
   }
 
-  static async delUser(user_id, user_name) {
-    const respuesta = await RequestDel.delUser(user_id);
+  static async delUser(userId, user_name) {
+    const respuesta = await RequestDel.delUser(userId);
     if (respuesta === true) {
       document.location.href = "index.html";
     } else {
@@ -536,7 +545,7 @@ export class WalletManager {
     console.log("delMember");
   }
 
-  static async putUser(name_old, user_id) {
+  static async putUser(name_old, userId) {
     const pin_now = document.querySelector("#pin-now").value;
     if (pin_now.length == 0) {
       alert(
@@ -544,7 +553,7 @@ export class WalletManager {
       );
       document.getElementById("pin-now").classList.add("changeInputError");
     } else {
-      const pin = await RequestGet.getPinId(user_id);
+      const pin = await RequestGet.getPinId(userId);
       if (pin[0]["pin"] == pin_now) {
         const name_new = document.querySelector("#user-name").value;
         const respuesta = await RequestPut.putUser(name_old, name_new);
@@ -568,7 +577,7 @@ export class WalletManager {
     console.log("putUser");
   }
 
-  static async putPin(user_id) {
+  static async putPin(userId) {
     const pin_now = document.querySelector("#pin-now").value;
     const pin_new = document.querySelector("#pin-new").value;
     document.getElementById("pin-now").classList.remove("changeInputError");
@@ -581,9 +590,9 @@ export class WalletManager {
         document.getElementById("pin-new").classList.add("changeInputError");
       }
     } else {
-      const pin = await RequestGet.getPinId(user_id);
+      const pin = await RequestGet.getPinId(userId);
       if (pin[0]["pin"] == pin_now) {
-        const respuesta = await RequestPut.putPin(pin_now, pin_new, user_id);
+        const respuesta = await RequestPut.putPin(pin_now, pin_new, userId);
         if (respuesta === true) {
           alert(
             "RECUERDE que en el próximo Inicio de Sesión su PIN será " + pin_new
@@ -871,18 +880,14 @@ export class WalletManager {
     if (id_proprietary == undefined) {
       localStorage.clear();
       document.location.href = "index.html";
+    } else {
+      let name_proprietary = await RequestGet.getIdName(id_proprietary);
+      //const nickname_id = await RequestGet.getIdName(id_proprietary);
+      const nickname_proprietary = await RequestGet.getIdName(id_proprietary);
+      document.querySelector(
+        "#proprietary-wallets"
+      ).innerHTML = `<div id="name-proprietary" data-name-proprietary='${name_proprietary}' data-id-proprietary='${id_proprietary}' data-nickname-proprietary='${nickname_proprietary}'>Wallets de ${name_proprietary}</div><div>Alias ${nickname_proprietary}</div>`;
+      console.log("permanentUserRead");
     }
-    let name_proprietary = await RequestGet.getIdName(id_proprietary);
-    if (name_proprietary.length == 0) {
-      localStorage.clear();
-      document.location.href = "index.html";
-    }
-    name_proprietary = name_proprietary.name;
-    const nickname_id = await RequestGet.getIdName(id_proprietary);
-    const nickname_proprietary = nickname_id["nickname"];
-    document.querySelector(
-      "#proprietary-wallets"
-    ).innerHTML = `<div id="name-proprietary" data-name-proprietary='${name_proprietary}' data-id-proprietary='${id_proprietary}' data-nickname-proprietary='${nickname_proprietary}'>Wallets de ${name_proprietary}</div><div>Alias ${nickname_proprietary}</div>`;
-    console.log("permanentUserRead");
   }
 }

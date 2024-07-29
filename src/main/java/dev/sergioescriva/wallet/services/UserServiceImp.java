@@ -17,7 +17,7 @@ public class UserServiceImp implements UserService {
     UserRepository repository;
 
     @Override
-    public List<User> getUser() {
+    public List<User> getUsers() {
         List<User> userList = new ArrayList<>();
         Iterable<User> usersRepository = repository.findAll();
 
@@ -109,7 +109,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void addUser(String userName, String nickusername, String pin) {
+    public void addUserByName(String userName, String nickusername, String pin) {
         User newUser = new User();
         newUser.setUsername(userName);
         newUser.setNickname(nickusername);

@@ -26,5 +26,6 @@ public class Transaction {
     @Column(name = "wallet_id", nullable = false)
     private Long walletId;
     private String participants;
+    private String date;
 
 }

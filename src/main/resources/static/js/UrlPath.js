@@ -6,13 +6,13 @@ export class UrlPath {
   static URL = {
     WALLET: UrlPath.baseUrl() + "wallet/",
     USER: UrlPath.baseUrl() + "user/",
-    TRANSACTIONS: UrlPath.baseUrl() + "transaction/transactions/",
-    BALANCE: UrlPath.baseUrl() + "transactions/balance/",
-    BALANCE_MIN: UrlPath.baseUrl() + "transactions/balance_min/",
+    TRANSACTION: UrlPath.baseUrl() + "transaction/",
+    BALANCE: UrlPath.baseUrl() + "transaction/balance/",
+    BALANCE_MIN: UrlPath.baseUrl() + "transaction/balanceMin/",
     DIVISION: UrlPath.baseUrl() + "settle/",
     MEMBERS: UrlPath.baseUrl() + "wallet/members/",
     CATEGORIES: UrlPath.baseUrl() + "categories/",
-    TRANSACTIONE: UrlPath.baseUrl() + "transaction/",
+    TRANSACTIONS: UrlPath.baseUrl() + "transaction/transactions/",
     FILE: UrlPath.baseUrl() + "file",
   };
 }

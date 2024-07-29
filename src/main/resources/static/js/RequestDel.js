@@ -17,7 +17,7 @@ export class RequestDel {
     }
 
     static async delTransac(Id) {
-        const url = UrlPath.URL.TRANSACTIONE + Id
+        const url = UrlPath.URL.TRANSACTION + Id
         const delete_transac =  {
             method: 'DELETE',
             body: JSON.stringify({Id}),
@@ -52,11 +52,11 @@ export class RequestDel {
         return await RequestDel._delRequest(url, member_add)
     }
 
-    static async delUser(user_id) {
-        const url = UrlPath.URL.USER + user_id
+    static async delUser(userId) {
+        const url = UrlPath.URL.USER + userId
         const delete_user =  {
             method: 'DELETE',
-            body: JSON.stringify({user_id}),
+            body: JSON.stringify({userId}),
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.sergioescriva.wallet.models.Transaction;
+import dev.sergioescriva.wallet.models.User;
 import dev.sergioescriva.wallet.repositories.TransactionRepository;
 
 @Service
@@ -51,9 +52,10 @@ public class TransactionServiceImp implements TransactionService {
     }
 
     @Override
-    public void getBalanceMinById(Long walletId) {
-
-        throw new UnsupportedOperationException("Unimplemented method 'getBalanceMinById'");
+    public User getBalanceMinById(Long walletId) {
+        User prueba = new User();
+        prueba.setUsername("Sergio1");
+        return prueba;
     }
 
     @Override

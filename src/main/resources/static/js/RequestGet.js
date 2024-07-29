@@ -18,7 +18,7 @@ export class RequestGet {
   }
 
   static async getTransaction(Id) {
-    const url = UrlPath.URL.TRANSACTIONE + Id;
+    const url = UrlPath.URL.TRANSACTION + Id;
     return await RequestGet._getRequest(url);
   }
 
@@ -47,18 +47,23 @@ export class RequestGet {
     return await RequestGet._getRequest(url);
   }
 
-  static async getPinId(user_id) {
-    const url = UrlPath.URL.USER + "pin/" + user_id;
+  static async getUsers() {
+    const url = UrlPath.URL.USER + "users";
     return await RequestGet._getRequest(url);
   }
 
-  static async getIdName(user_id) {
-    const url = UrlPath.URL.USER + "id/" + user_id;
+  static async getPinId(userId) {
+    const url = UrlPath.URL.USER + "pin/" + userId;
+    return await RequestGet._getRequest(url);
+  }
+
+  static async getIdName(userId) {
+    const url = UrlPath.URL.USER + "id/" + userId;
     return await RequestGet._getRequest(url);
   }
 
   static async getCategories() {
-    const url = UrlPath.URL.CATEGORIES;
+    const url = UrlPath.URL.CATEGORIES + "categories";
     return await RequestGet._getRequest(url);
   }
 

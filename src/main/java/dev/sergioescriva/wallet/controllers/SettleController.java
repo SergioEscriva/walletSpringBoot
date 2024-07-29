@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class SettleController {
 
     @GetMapping("/{wallet_id}")
-    public void getDivisionByWalletId(@PathVariable Long walletId) {
+    public Double getDivisionByWalletId(@PathVariable Long walletId) {
+        return (double) 256;
         // settle = Settle().divisionWallet(wallet_id)
         // return settle
     }
