@@ -229,7 +229,6 @@ export class WalletManager {
     const division = await RequestGet.getDivision(selectedWalletId);
     const membersData = await RequestGet.getMembers(selectedWalletId);
     const transactions = WalletManager.domElements.transactions;
-
     transactions.innerHTML = "";
     transactions.innerHTML += `
         <div id="transac_idid" title="0"><B>

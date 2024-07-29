@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.sergioescriva.wallet.models.User;
 import dev.sergioescriva.wallet.models.Wallet;
-import dev.sergioescriva.wallet.models.WalletUser;
 import dev.sergioescriva.wallet.services.WalletService;
 
 @RestController
@@ -93,7 +93,7 @@ public class WalletController {
     }
 
     @GetMapping("/members/{walletId}")
-    public List<WalletUser> getMembersById(@PathVariable Long walletId) {
+    public List<User> getMembersById(@PathVariable Long walletId) {
         return service.getMembersById(walletId);
         // wallets = Wallet().membersWallet(wallet_id)#[0]["user_id"]
         // return wallets

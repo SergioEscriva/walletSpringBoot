@@ -7,8 +7,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dev.sergioescriva.wallet.models.User;
 import dev.sergioescriva.wallet.models.Wallet;
 import dev.sergioescriva.wallet.models.WalletUser;
+import dev.sergioescriva.wallet.repositories.UserRepository;
 import dev.sergioescriva.wallet.repositories.WalletRepository;
 import dev.sergioescriva.wallet.repositories.WalletUserRepository;
 
@@ -20,6 +22,9 @@ public class WalletServiceImp implements WalletService {
 
     @Autowired
     WalletUserRepository membersRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public List<Wallet> getWalletByPropietary(Long proprietaryId) {
@@ -145,13 +150,14 @@ public class WalletServiceImp implements WalletService {
     }
 
     @Override
-    public List<WalletUser> getMembersById(Long walletId) {
+    public List<User> getMembersById(Long walletId) {
         Iterable<WalletUser> members = membersRepository.findAll();
 
-        List<WalletUser> membersList = new ArrayList<>();
+        List<User> membersList = new ArrayList<>();
         for (WalletUser memberActual : members) {
             if (memberActual.getWalletId().equals(walletId)) {
-                membersList.add(memberActual);
+                Optional<User> userAdd = userRepository.findById(memberActual.getUserId());
+                membersList.add(userAdd.get());
             }
 
         }
