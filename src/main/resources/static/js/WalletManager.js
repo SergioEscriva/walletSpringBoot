@@ -214,6 +214,11 @@ export class WalletManager {
 
   static async transactionsList(selectedWalletId) {
     const transactionsData = await RequestGet.getTransactions(selectedWalletId);
+    console.log(
+      selectedWalletId +
+        "  LEEEEEEEEENGGGGGGGG:::::::: " +
+        transactionsData.length
+    );
     if (transactionsData.length == 0)
       return (
         alert("No hay Transacciones, Añade una..."),

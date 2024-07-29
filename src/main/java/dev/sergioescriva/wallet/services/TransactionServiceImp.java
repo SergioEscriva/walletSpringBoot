@@ -21,7 +21,7 @@ public class TransactionServiceImp implements TransactionService {
         List<Transaction> transactionList = new ArrayList<>();
         Iterable<Transaction> transactions = repository.findAll();
         for (Transaction transaction : transactions) {
-            if (transaction.getId().equals(walletId)) {
+            if (transaction.getWalletId().equals(walletId)) {
                 transactionList.add(transaction);
             }
         }
