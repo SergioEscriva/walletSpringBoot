@@ -31,10 +31,9 @@ public class UserController {
     }
 
     @GetMapping("/id/{userId}")
-    public String getUserNameById(@PathVariable Long userId) {
+    public User getUserNameById(@PathVariable Long userId) {
         User userName = service.getUserNameById(userId);
-        String userReturnName = userName.getUsername();
-        return userReturnName;// userName.getUsername().toString();
+        return userName;// .getUsername();
     }
 
     @GetMapping("/name/{userName}")

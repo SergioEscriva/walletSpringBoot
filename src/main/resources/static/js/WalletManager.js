@@ -236,14 +236,16 @@ export class WalletManager {
             <div style="font-size: 10px">Participantes</div>
             <div>Fecha</div>
         </div></B></div>`;
-    transactionsData.forEach((transaction) => {
-      const userName = RequestGet.getIdName(transaction.userId);
+    transactionsData.forEach(async (transaction) => {
+      const userNameTransaction = await RequestGet.getIdName(
+        transaction.userId
+      );
       transactions.innerHTML += `
             <div id="transac_idid" title="${transaction.id}">
             <div id="transac_id${transaction.id}" title="${transaction.id}" class="cuadricula">
                 <div>${transaction.description}</div>
                 <div>${transaction.amount}€</div>
-                <div>${userName}</div>
+                <div>${userNameTransaction.username}</div>
                 <div>${transaction.category}</div>
                 <div style="font-size: 10px">${transaction.participants}</div>
                 <div>${transaction.date}</div>
