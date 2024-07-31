@@ -134,22 +134,24 @@ export class TransactionManager {
     const categorySelector = document.querySelector("#category-selected").value;
 
     const categoryId = await RequestGet.getCategoryByName(categorySelector);
-    console.log(categoryId.id + " cccccccat " + categorySelector);
 
     var checked = document.querySelectorAll("#participants-selector :checked");
     const selectedParticipant_add = [...checked].map((option) => option.value);
     var selectedPayer_add = document.querySelector("#payers-selector").value;
+    const selectedPayer = await RequestGet.getUserId(selectedPayer_add);
     const dateMember_add = document.querySelector("#adddate-selector").value;
+    var selectedParticipants = String(selectedParticipant_add);
+    console.log(selectedWalletId + " cccccccat " + typeof dateMember_add);
     const transaction_add = {
       category: categoryId.id,
       description: description_value,
       amount: amount_value,
-      userId: selectedPayer_add,
+      userId: selectedPayer,
       date: dateMember_add,
-      wallet_id: selectedWalletId,
-      participants: selectedParticipant_add,
+      walletId: selectedWalletId,
+      participants: "2,21", //selectedParticipant_add,
     };
-    TransactionManager.saveCategory(categorySelector);
+    //TransactionManager.saveCategory(categorySelector);
     const validate = TransactionManager.validateParticipants(
       selectedParticipant_add
     );
