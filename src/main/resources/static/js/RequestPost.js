@@ -3,7 +3,7 @@ import { UrlPath } from "./UrlPath.js";
 export class RequestPost {
   //POST
   static async postTransaction(transaction) {
-    const url = UrlPath.URL.TRANSACTION;
+    const url = UrlPath.URL.TRANSACTION + "add";
     //console.log(transaction)
     const transaction_add = {
       method: "POST",

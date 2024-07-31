@@ -29,8 +29,8 @@ export class TransactionManager {
     const fragment = document.createDocumentFragment();
     members.forEach((members) => {
       const option = document.createElement("option");
-      option.id = members.userId;
-      option.value = members.userId;
+      option.id = members.id;
+      option.value = members.username;
       option.text = members.nickname;
       fragment.appendChild(option);
     });
@@ -46,7 +46,7 @@ export class TransactionManager {
     document.querySelector("#participants-selector").innerHTML = "";
     members.forEach((participant) => {
       participantsSelector.innerHTML += `
-            <input id=${participant.userId} name="${participant.nickname}" type="checkbox" value= ${participant.userId}>${participant.nickname}</input>
+            <input id=${participant.id} name="${participant.nickname}" type="checkbox" value= ${participant.id}>${participant.nickname}</input>
             `;
     });
     if (participants == "Todos") {
@@ -66,13 +66,13 @@ export class TransactionManager {
 
   static fillCategorySelector(category) {
     const categorySelector = document.querySelector("#category-selector");
-    document.querySelector("#category-selector").innerHTML = "";
+    categorySelector.innerHTML = "";
+    //document.querySelector("#category-selector").innerHTML = "";
     const fragment = document.createDocumentFragment();
     //category.unshift({ id:5,category: "Varios"})
     category.forEach((categories) => {
       const option = document.createElement("option");
       option.value = categories.category;
-      console.log(categories.category);
       option.text = categories.category;
       fragment.appendChild(option);
     });
@@ -131,14 +131,17 @@ export class TransactionManager {
   static async addTransac(selectedWalletId) {
     var description_value = document.getElementById("description_add").value;
     var amount_value = document.getElementById("amount_add").value;
-    var selectedCategory_add =
-      document.querySelector("#category-selected").value;
+    const categorySelector = document.querySelector("#category-selected").value;
+
+    const categoryId = await RequestGet.getCategoryByName(categorySelector);
+    console.log(categoryId.id + " cccccccat " + categorySelector);
+
     var checked = document.querySelectorAll("#participants-selector :checked");
     const selectedParticipant_add = [...checked].map((option) => option.value);
     var selectedPayer_add = document.querySelector("#payers-selector").value;
     const dateMember_add = document.querySelector("#adddate-selector").value;
     const transaction_add = {
-      category: selectedCategory_add,
+      category: categoryId.id,
       description: description_value,
       amount: amount_value,
       userId: selectedPayer_add,
@@ -146,7 +149,7 @@ export class TransactionManager {
       wallet_id: selectedWalletId,
       participants: selectedParticipant_add,
     };
-    TransactionManager.saveCategory(selectedCategory_add);
+    TransactionManager.saveCategory(categorySelector);
     const validate = TransactionManager.validateParticipants(
       selectedParticipant_add
     );

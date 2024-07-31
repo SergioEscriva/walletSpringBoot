@@ -214,11 +214,6 @@ export class WalletManager {
 
   static async transactionsList(selectedWalletId) {
     const transactionsData = await RequestGet.getTransactions(selectedWalletId);
-    console.log(
-      selectedWalletId +
-        "  LEEEEEEEEENGGGGGGGG:::::::: " +
-        transactionsData.length
-    );
     if (transactionsData.length == 0)
       return (
         alert("No hay Transacciones, Añade una..."),
@@ -290,7 +285,6 @@ export class WalletManager {
   async userIdToUserName(userId) {
     //let userId = transactions.userId;
     let userName = await RequestGet.getIdName(userId);
-    console.log("HOooooola " + userName);
     return userName;
   }
 
@@ -891,11 +885,9 @@ export class WalletManager {
       document.location.href = "index.html";
     } else {
       let name_proprietary = await RequestGet.getIdName(id_proprietary);
-      //const nickname_id = await RequestGet.getIdName(id_proprietary);
-      const nickname_proprietary = await RequestGet.getIdName(id_proprietary);
       document.querySelector(
         "#proprietary-wallets"
-      ).innerHTML = `<div id="name-proprietary" data-name-proprietary='${name_proprietary}' data-id-proprietary='${id_proprietary}' data-nickname-proprietary='${nickname_proprietary}'>Wallets de ${name_proprietary}</div><div>Alias ${nickname_proprietary}</div>`;
+      ).innerHTML = `<div id="name-proprietary" data-name-proprietary='${name_proprietary.username}' data-id-proprietary='${id_proprietary}' data-nickname-proprietary='${name_proprietary.nickname}'>Wallets de ${name_proprietary.username}</div><div>Alias ${name_proprietary.nickname}</div>`;
       console.log("permanentUserRead");
     }
   }

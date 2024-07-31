@@ -53,7 +53,7 @@ public class TransactionController {
         // return transaction
     }
 
-    @PostMapping("/transaction/")
+    @PostMapping("/add")
     public void addTransaction(@RequestBody Transaction transaction) {
         service.addTransaction(transaction);
         // public void addTransaction(data_transaction: transactionAddDic){

@@ -35,6 +35,20 @@ public class CategoryServiceImp implements CategoryService {
             return category.get();
         }
         return null;
+    }
+
+    @Override
+    public Category getCategoryIdByName(String categoryName) {
+
+        Iterable<Category> categories = repository.findAll();
+        for (Category category : categories) {
+            if (category.getCategory().equals(categoryName)) {
+                System.out.println("OOOOOOOOO " + category.getId());
+                return category;
+            }
+        }
+
+        return null;
 
     }
 
