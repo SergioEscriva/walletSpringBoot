@@ -10,11 +10,15 @@ import org.springframework.stereotype.Service;
 import dev.sergioescriva.wallet.models.Transaction;
 import dev.sergioescriva.wallet.models.User;
 import dev.sergioescriva.wallet.repositories.TransactionRepository;
+import dev.sergioescriva.wallet.repositories.UserRepository;
 
 @Service
 public class TransactionServiceImp implements TransactionService {
     @Autowired
     TransactionRepository repository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public List<Transaction> getAllTransactionByWalletId(Long walletId) {
@@ -73,5 +77,24 @@ public class TransactionServiceImp implements TransactionService {
     public void delTransactionById(Long delId) {
         repository.deleteById(delId);
     }
-
+    /*
+     * @Override
+     * public User getParticipantsNames(Long walletId) {
+     * 
+     * public User participantsIdListToNameList(Long walletId) {
+     * String participantsName = "";
+     * Iterable<Transaction> transactions = repository.findAll();
+     * 
+     * String array = participantsIdList.split(",");
+     * System.out.println("QQQQQQQQQQQQQQQQQQQQ : " + array);
+     * for (Transaction transaction : transactions) {
+     * if (transaction.getWalletId().equals(walletId)) {
+     * participantName = userRepository.findById(transaction.getParticipants());
+     * }
+     * console.log(participantNameNow + " jjjj " + participantId);
+     * participantsName += participantNameNow.username;
+     * }
+     * return participantsName;
+     * }
+     */
 }

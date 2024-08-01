@@ -34,6 +34,8 @@ public interface TransactionService {
 
     User getBalanceMinById(Long walletId);
 
+    // User getParticipantsNames(Long walletId);
+
     void addTransaction(@RequestBody Transaction transaction);
 
     void updateTransaction(@RequestBody Transaction transaction);

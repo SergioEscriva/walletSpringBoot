@@ -69,7 +69,7 @@ export class TransactionManager {
     categorySelector.innerHTML = "";
     //document.querySelector("#category-selector").innerHTML = "";
     const fragment = document.createDocumentFragment();
-    //category.unshift({ id:5,category: "Varios"})
+    //category.unshift({ id: 1, category: "Varios" });
     category.forEach((categories) => {
       const option = document.createElement("option");
       option.value = categories.category;
@@ -138,10 +138,10 @@ export class TransactionManager {
     var checked = document.querySelectorAll("#participants-selector :checked");
     const selectedParticipant_add = [...checked].map((option) => option.value);
     var selectedPayer_add = document.querySelector("#payers-selector").value;
-    const selectedPayer = await RequestGet.getUserId(selectedPayer_add);
+    const selectedPayer = await RequestGet.getUserIdByName(selectedPayer_add);
     const dateMember_add = document.querySelector("#adddate-selector").value;
     var selectedParticipants = String(selectedParticipant_add);
-    console.log(selectedWalletId + " cccccccat " + typeof dateMember_add);
+
     const transaction_add = {
       category: categoryId.id,
       description: description_value,
@@ -149,9 +149,9 @@ export class TransactionManager {
       userId: selectedPayer,
       date: dateMember_add,
       walletId: selectedWalletId,
-      participants: "2,21", //selectedParticipant_add,
+      participants: selectedParticipants,
     };
-    //TransactionManager.saveCategory(categorySelector);
+    TransactionManager.saveCategory(categorySelector);
     const validate = TransactionManager.validateParticipants(
       selectedParticipant_add
     );

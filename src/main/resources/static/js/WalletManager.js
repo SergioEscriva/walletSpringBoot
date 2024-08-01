@@ -236,12 +236,24 @@ export class WalletManager {
             <div>Fecha</div>
         </div></B></div>`;
     transactionsData.forEach(async (transaction) => {
-      const userNameTransaction = await RequestGet.getIdName(
+      const userNameTransaction = await RequestGet.getNameById(
         transaction.userId
       );
       const categoryTransacction = await RequestGet.getCategoryById(
         transaction.category
       );
+      let membersName = [];
+      const members = await RequestGet.getMembers(selectedWalletId);
+      members.forEach(async (member) => {
+        let memberId = member.id;
+
+        let transactionParticipants = transaction.participants;
+        //transactionParticipants.split(",");
+        if (transactionParticipants.includes(memberId)) {
+          membersName.push(member.nickname);
+        }
+      });
+
       transactions.innerHTML += `
             <div id="transac_idid" title="${transaction.id}">
             <div id="transac_id${transaction.id}" title="${transaction.id}" class="cuadricula">
@@ -249,8 +261,8 @@ export class WalletManager {
                 <div>${transaction.amount}€</div>
                 <div>${userNameTransaction.username}</div>
                 <div>${categoryTransacction.category}</div>
-                <div style="font-size: 10px">${transaction.participants}</div>
-                <div>${transaction.date}</div>
+                <div style="font-size: 10px">${membersName}</div>
+                <div>${transaction.date}/div>
             </div></div>`;
       console.log("transactionsList");
     });
@@ -284,7 +296,7 @@ export class WalletManager {
 
   async userIdToUserName(userId) {
     //let userId = transactions.userId;
-    let userName = await RequestGet.getIdName(userId);
+    let userName = await RequestGet.getNameById(userId);
     return userName;
   }
 
@@ -884,7 +896,7 @@ export class WalletManager {
       localStorage.clear();
       document.location.href = "index.html";
     } else {
-      let name_proprietary = await RequestGet.getIdName(id_proprietary);
+      let name_proprietary = await RequestGet.getNameById(id_proprietary);
       document.querySelector(
         "#proprietary-wallets"
       ).innerHTML = `<div id="name-proprietary" data-name-proprietary='${name_proprietary.username}' data-id-proprietary='${id_proprietary}' data-nickname-proprietary='${name_proprietary.nickname}'>Wallets de ${name_proprietary.username}</div><div>Alias ${name_proprietary.nickname}</div>`;

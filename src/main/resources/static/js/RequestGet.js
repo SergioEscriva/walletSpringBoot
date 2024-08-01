@@ -42,7 +42,7 @@ export class RequestGet {
     return await RequestGet._getRequest(url);
   }
 
-  static async getUserId(user_name) {
+  static async getUserIdByName(user_name) {
     const url = UrlPath.URL.USER + "name/" + user_name;
     return await RequestGet._getRequest(url);
   }
@@ -52,12 +52,17 @@ export class RequestGet {
     return await RequestGet._getRequest(url);
   }
 
+  static async getParticipantsNameList(walletId) {
+    const url = UrlPath.URL.TRANSACTION + "participants";
+    return await RequestGet._getRequest(url);
+  }
+
   static async getPinId(userId) {
     const url = UrlPath.URL.USER + "pin/" + userId;
     return await RequestGet._getRequest(url);
   }
 
-  static async getIdName(userId) {
+  static async getNameById(userId) {
     const url = UrlPath.URL.USER + "id/" + userId;
     return await RequestGet._getRequest(url);
   }
