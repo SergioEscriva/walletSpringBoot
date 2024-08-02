@@ -259,17 +259,15 @@ export class WalletManager {
                 <div>${transaction.date}</div>
             </div></div>`;
       console.log("transactionsList");
-    });
-    document.querySelectorAll("#transacIdid").forEach(function (element) {
-      const transacId = element["title"];
-      console.log("#transacId" + transacId);
 
-      document
-        .querySelector("#transacId" + transacId)
-        .addEventListener("click", () => {
-          console.log("holaAAAAAAAAAAAAAAAAAAAAAAAAAA " + selectedWalletId);
-          WalletManager.showEditTransac(transacId, selectedWalletId);
-        });
+      document.querySelectorAll("#transacIdid").forEach(function (element) {
+        const transacId = element["title"];
+        document
+          .querySelector("#transacId" + transacId)
+          .addEventListener("click", () => {
+            WalletManager.showEditTransac(transacId, selectedWalletId);
+          });
+      });
     });
 
     const balanceElement = WalletManager.domElements.balance;
