@@ -7,8 +7,8 @@ export class RequestGet {
     return await RequestGet._getRequest(url);
   }
 
-  static async getWalletToId(wallet_name) {
-    const url = UrlPath.URL.WALLET + "id/" + wallet_name;
+  static async getWalletToId(walletName) {
+    const url = UrlPath.URL.WALLET + "id/" + walletName;
     return await RequestGet._getRequest(url);
   }
 
@@ -42,8 +42,8 @@ export class RequestGet {
     return await RequestGet._getRequest(url);
   }
 
-  static async getUserIdByName(user_name) {
-    const url = UrlPath.URL.USER + "name/" + user_name;
+  static async getUserIdByName(userName) {
+    const url = UrlPath.URL.USER + "name/" + userName;
     return await RequestGet._getRequest(url);
   }
 

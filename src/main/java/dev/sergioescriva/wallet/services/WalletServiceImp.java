@@ -2,6 +2,7 @@ package dev.sergioescriva.wallet.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class WalletServiceImp implements WalletService {
         Iterable<Wallet> wallets = repository.findAll();
 
         for (Wallet wallet : wallets) {
-            if (wallet.getProprietaryId() == proprietaryId) {
+            if (Objects.equals(wallet.getProprietaryId(), proprietaryId)) {
                 walletList.add(wallet);
 
             }

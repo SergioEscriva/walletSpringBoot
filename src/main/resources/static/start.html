@@ -72,11 +72,11 @@
 
         <div id="edit-wallet-group" class="hidden">
             <label for="editwallet">Editar Wallet</label>
-                <div style="text-align: center" id="name_edit_group">
+                <div style="text-align: center" id="nameEditGroup">
                     <div>
                         <label>Wallets en Propiedad</label>
                         <ul></ul>
-                        <select type="text"  id="name_edit" name="name" size="10"></select><br>
+                        <select type="text"  id="nameEdit" name="name" size="10"></select><br>
                         <ul></ul>
                         <div><button id="buttonEditWallete-atras" class="action-button">Volver</button></div>
                         <ul></ul>
@@ -85,10 +85,10 @@
                 </div>
             </div>
         <div id="editwallet" style="text-align: center" class="hidden">
-                <div id="group-edit-name-wallet" class="hidden"><button id="buttonWalletEdit-del" class="mini-button" >&#10062;</button><input type="text" id="name_edit_new" name="name_edit_new" required minlength="4"  size="25" ><button id="buttonWalletEdit-save" class="mini-button" >&#9989;</button></div><br>
-                <div><label for="description">Descripción</label></div><div><input type="text" id="description_wallet_edit" name="description" required minlength="4"  size="25"></div><br>
+                <div id="group-edit-name-wallet" class="hidden"><button id="buttonWalletEdit-del" class="mini-button" >&#10062;</button><input type="text" id="nameEditNew" name="nameEditNew" required minlength="4"  size="25" ><button id="buttonWalletEdit-save" class="mini-button" >&#9989;</button></div><br>
+                <div><label for="description">Descripción</label></div><div><input type="text" id="descriptionWalletEdit" name="description" required minlength="4"  size="25"></div><br>
                 <div><br><label for="membersAdd-selector" >Añadir Miembro</label></div>
-                <div id="newMemberWallet"><input type="text" id="newMemberWallet_new" name="newMemberWallet_new" required minlength="4"  size="22" ><button id="newMemberWallet-save" >+</button></div><br>
+                <div id="newMemberWallet"><input type="text" id="newMemberWalletNew" name="newMemberWalletNew" required minlength="4"  size="22" ><button id="newMemberWallet-save" >+</button></div><br>
                 <label style="font-size: 10px">Miembros del Wallet</label>
                 <div name="membersAdd-selector" id="membersEdit-selector" class="hidden" size="5"></div><br>
                 <div id="share-group" ><input type="checkbox" id="share" name="share" value="1" disabled>
@@ -133,7 +133,7 @@
             <label for="addtransactions" id="tituloEditar" class="hidden">Editar Transacción</label>
             <hr/>
             <div id="addtransaction" style="text-align: center">
-                <input class="hidden" id="transac_id" value="">
+                <input class="hidden" id="transacId" value="">
                 <div style="text-align: center"> <div><label for="description">¿El qué?</label></div><div><input type="text" id="description_add"  name="description" minlength="4"  size="25" ></div><br>
                 <div><label for="amount">¿Cuanto (€)?</label></div><div><input type="text" id="amount_add" name="amount" required minlength="4" size="25"></div><br>
                 <div><label for="payers-selector">¿Quién Paga?</div><div></label><select style="width:260px" name="payers-selector" id="payers-selector" ></select></div><br>
@@ -142,11 +142,11 @@
 
                 <div><label for="category-selector">¿Categoria?</div><div></label><datalist style="width:260px" name="category-selector" id="category-selector"></datalist><input style="width:260px" name="category-selector" list="category-selector" id="category-selected"></div><br>
                 
-                <div id="add_date">
+                <div id="addDate">
                         <label class="text-center" for="adddate">Fecha<br></label>
                         <input id="adddate-selector" name="adddate-selector"></input>
 
-                        <input type="datetime-local" id="form_datetime" name="form_datetime" class="hidden"></input>
+                        <input type="datetime-local" id="formDatetime" name="formDatetime" class="hidden"></input>
 
                         
                         <button id="button-date" class="action-button">Modificar</button>
@@ -169,10 +169,10 @@
 
         <div id="edit-transaction-group" class="hidden">
             
-            <div style="text-align: center"> <div><label for="description">¿Qué?</label></div><div><input type="text" id="description_edit" name="description" required minlength="4"  size="25"></div><br>
+            <div style="text-align: center"> <div><label for="description">¿Qué?</label></div><div><input type="text" id="descriptionEdit" name="description" required minlength="4"  size="25"></div><br>
 
 
-            <div><label for="amount_edit">¿Cuanto (€)?</label></div><div><input type="text" id="amount_edit" name="amount_edit" required minlength="4" size="25"></div><br>
+            <div><label for="amountEdit">¿Cuanto (€)?</label></div><div><input type="text" id="amountEdit" name="amountEdit" required minlength="4" size="25"></div><br>
 
 
             <div><label for="payers-edit">¿Quién Paga?</div><div></label><input style="width:260px" name="payers-edit" id="payers-edit" ></input></div><br>
@@ -181,12 +181,12 @@
 
             <div><label for="category-selector">¿Categoria?</div><div></label><select style="width:260px" name="category-selector" id="categoryEdit-selector"></select></div><br>
             
-            <div id="edit_date">
+            <div id="editDate">
                 <form>
                     <label class="text-center" for="adddate">Fecha<br>
                         <input type="datetime-local" id="dateEdit-selector" name="trip-adddate" value=""
                         min="2022-01-01-07T00:00" max="3000-12-31-07T00:00"/>
-                        <span class="edit_date"></span>
+                        <span class="editDate"></span>
                     </label>
                 </form>
             </div>
@@ -273,5 +273,5 @@
 
 </body>
 
-<script src="./js/main_start.js" type="module"></script>
+<script src="./js/mainStart.js" type="module"></script>
 </html>

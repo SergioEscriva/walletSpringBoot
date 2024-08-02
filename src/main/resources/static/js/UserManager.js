@@ -23,23 +23,23 @@ export class UserManager {
   }
 
   async addUserNew() {
-    const name_add = document.getElementById("name-username").value;
-    const pin_add = document.getElementById("pin-username").value;
+    const nameAdd = document.getElementById("name-username").value;
+    const pinAdd = document.getElementById("pin-username").value;
     let users = await RequestGet.getUsers();
     users.forEach((user) => {
-      console.log("Guadando Usuario Permanente " + name_add + " -- " + pin_add);
-      UserManager.permanentUserSave(name_add, pin_add);
+      console.log("Guadando Usuario Permanente " + nameAdd + " -- " + pinAdd);
+      UserManager.permanentUserSave(nameAdd, pinAdd);
     });
 
     document.getElementById("name-username").classList.add("changeInputError");
   }
 
-  static async permanentUserSave(name_add, pin_add) {
-    let userId = await RequestGet.getUserId(name_add);
-    console.log("YYYYYeeeeepppppPP " + userId + " y " + pin_add);
+  static async permanentUserSave(nameAdd, pinAdd) {
+    let userId = await RequestGet.getUserId(nameAdd);
+    console.log("YYYYYeeeeepppppPP " + userId + " y " + pinAdd);
     let objet = {
       Id: userId,
-      Pin: pin_add,
+      Pin: pinAdd,
     };
     objet = JSON.stringify(objet);
     localStorage.setItem("key", objet);
@@ -47,8 +47,8 @@ export class UserManager {
   }
 
   static async permanentUserRead() {
-    //let objet_load = localStorage.getItem("key");
-    //objet_load = JSON.parse(objet_load);
+    //let objetLoad = localStorage.getItem("key");
+    //objetLoad = JSON.parse(objetLoad);
     console.log("LocalStorage " + localStorage.length);
     if (localStorage.length == 0) {
       document.querySelector("#container").classList.remove("hidden");

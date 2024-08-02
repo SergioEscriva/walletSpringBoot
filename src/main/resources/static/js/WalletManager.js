@@ -15,14 +15,10 @@ export class WalletManager {
     await WalletManager.permanentUserRead();
     const proprietary =
       document.querySelector("#name-proprietary").dataset.idProprietary;
-    const wallet_p = await RequestGet.getWallets(0);
+    const walletP = await RequestGet.getWallets(0);
     const wallets = await RequestGet.getWallets(proprietary);
     if (!wallets) return;
-    this.fillWalletsSelector(
-      wallets,
-      this.domElements.walletSelector,
-      wallet_p
-    );
+    this.fillWalletsSelector(wallets, this.domElements.walletSelector, walletP);
     this.addListeners();
   }
 
@@ -49,19 +45,19 @@ export class WalletManager {
     };
   }
 
-  async fillWalletsSelector(wallets_data, algo, wallet_p) {
-    const wallets_sel = WalletManager.domElements.walletSelector;
-    wallets_sel.innerHTML = "";
-    if (wallets_data.length == 0) {
-      wallets_data = wallet_p;
+  async fillWalletsSelector(walletsData, algo, walletP) {
+    const walletsSel = WalletManager.domElements.walletSelector;
+    walletsSel.innerHTML = "";
+    if (walletsData.length == 0) {
+      walletsData = walletP;
     }
-    wallets_data.forEach((wallets) => {
+    walletsData.forEach((wallets) => {
       if (wallets.description == null) {
         wallets.description = "Sin descripción";
       }
-      wallets_sel.innerHTML += `
+      walletsSel.innerHTML += `
             <div id="wallet" data-wallet-id="${wallets.id}" data-wallet="wallets">
-            <div id="wallet_id${wallets.id}"  data-wallet="wallets" data-wallet-id="${wallets.id}" data-wallet-name="${wallets.name}" class="cuadriculaWallet">
+            <div id="walletId${wallets.id}"  data-wallet="wallets" data-wallet-id="${wallets.id}" data-wallet-name="${wallets.name}" class="cuadriculaWallet">
                 <div id="wallet-name-id-${wallets.id}">${wallets.name}</div>
                 <div id="wallet-description-id-${wallets.id}" style="font-size: 10px">${wallets.description}</div>
             </div></div>`;
@@ -151,11 +147,11 @@ export class WalletManager {
     });
     WalletManager.domElements.walletGroup.classList.remove("hidden");
     document.querySelectorAll("#wallet").forEach(function (element) {
-      const wallet_id = element.dataset.walletId;
+      const walletId = element.dataset.walletId;
       document
-        .querySelector("#wallet_id" + wallet_id)
+        .querySelector("#walletId" + walletId)
         .addEventListener("click", () => {
-          WalletManager.selectedWalletId(wallet_id);
+          WalletManager.selectedWalletId(walletId);
         });
     });
     console.log("addListeners");
@@ -195,12 +191,12 @@ export class WalletManager {
     console.log("addListenerSelect");
   }
 
-  static selectedWalletId(wallet_id) {
+  static selectedWalletId(walletId) {
     WalletManager.domElements.addTransactionGroup.classList.add("hidden");
     WalletManager.domElements.walletGroup.classList.add("hidden");
-    const selectedWalletId = wallet_id;
+    const selectedWalletId = walletId;
     const selectedWalletName = document.querySelectorAll(
-      "#wallet_id" + wallet_id
+      "#walletId" + walletId
     )[0].firstElementChild.innerHTML;
     const selectWall = WalletManager.domElements.walletName;
     selectWall.innerHTML = "";
@@ -226,8 +222,8 @@ export class WalletManager {
     const transactions = WalletManager.domElements.transactions;
     transactions.innerHTML = "";
     transactions.innerHTML += `
-        <div id="transac_idid" title="0"><B>
-        <div id="transac_id0" title="0" class="cuadricula">
+        <div id="transacIdid" title="0"><B>
+        <div id="transacId0" title="0" class="cuadricula" >
             <div>Descripción</div>
             <div>Importe (€)</div>
             <div>Pagador</div>
@@ -246,33 +242,33 @@ export class WalletManager {
       const members = await RequestGet.getMembers(selectedWalletId);
       members.forEach(async (member) => {
         let memberId = member.id;
-
         let transactionParticipants = transaction.participants;
-        //transactionParticipants.split(",");
         if (transactionParticipants.includes(memberId)) {
           membersName.push(member.nickname);
         }
       });
 
       transactions.innerHTML += `
-            <div id="transac_idid" title="${transaction.id}">
-            <div id="transac_id${transaction.id}" title="${transaction.id}" class="cuadricula">
+            <div id="transacIdid" title="${transaction.id}">
+            <div id="transacId${transaction.id}" title="${transaction.id}" class="cuadricula">
                 <div>${transaction.description}</div>
                 <div>${transaction.amount}€</div>
                 <div>${userNameTransaction.username}</div>
                 <div>${categoryTransacction.category}</div>
                 <div style="font-size: 10px">${membersName}</div>
-                <div>${transaction.date}/div>
+                <div>${transaction.date}</div>
             </div></div>`;
       console.log("transactionsList");
     });
+    document.querySelectorAll("#transacIdid").forEach(function (element) {
+      const transacId = element["title"];
+      console.log("#transacId" + transacId);
 
-    document.querySelectorAll("#transac_idid").forEach(function (element) {
-      const transac_id = element["title"];
       document
-        .querySelector("#transac_id" + transac_id)
+        .querySelector("#transacId" + transacId)
         .addEventListener("click", () => {
-          WalletManager.showEditTransac(transac_id, selectedWalletId);
+          console.log("holaAAAAAAAAAAAAAAAAAAAAAAAAAA " + selectedWalletId);
+          WalletManager.showEditTransac(transacId, selectedWalletId);
         });
     });
 
@@ -324,38 +320,38 @@ export class WalletManager {
   }
 
   async addWalletNew() {
-    const name_add = document.getElementById("name_add").value;
-    const proprietary_id =
+    const nameAdd = document.getElementById("nameAdd").value;
+    const proprietaryId =
       document.querySelector("#name-proprietary").dataset.idProprietary;
-    const proprietary_name =
+    const proprietaryName =
       document.querySelector("#name-proprietary").dataset.nameProprietary;
-    const respuesta = await RequestPost.postWallet(name_add, proprietary_id);
+    const respuesta = await RequestPost.postWallet(nameAdd, proprietaryId);
 
     if (respuesta === false) {
-      document.getElementById("name_add").classList.add("changeInputError");
+      document.getElementById("nameAdd").classList.add("changeInputError");
     } else {
       WalletManager.domElements.walletAddGroup.classList.add("hidden");
-      const name_edit = document.querySelector("#name_edit");
+      const nameEdit = document.querySelector("#nameEdit");
       const fragmentW = document.createDocumentFragment();
-      const wallet = await RequestGet.getWalletToId(name_add);
+      const wallet = await RequestGet.getWalletToId(nameAdd);
       const selectedWalletId = wallet[0]["id"];
-      const selectedWalletName = name_add;
-      await RequestPost.postMember(selectedWalletId, proprietary_name);
+      const selectedWalletName = nameAdd;
+      await RequestPost.postMember(selectedWalletId, proprietaryName);
       document.getElementById("editwallet").classList.remove("hidden");
-      document.getElementById("name_edit_group").classList.add("hidden");
+      document.getElementById("nameEditGroup").classList.add("hidden");
       document
         .getElementById("group-edit-name-wallet")
         .classList.remove("hidden");
       document.getElementById("edit-wallet-group").classList.remove("hidden");
-      document.getElementById("name_edit_new").value = selectedWalletName;
+      document.getElementById("nameEditNew").value = selectedWalletName;
       await WalletManager.editWalletMembers(selectedWalletId);
     }
     console.log("addWalletNew");
   }
 
   static async editWallet() {
-    document.getElementById("name_edit").innerHTML = "";
-    const name_edit = document.querySelector("#name_edit");
+    document.getElementById("nameEdit").innerHTML = "";
+    const nameEdit = document.querySelector("#nameEdit");
     const fragmentW = document.createDocumentFragment();
     const proprietary =
       document.querySelector("#name-proprietary").dataset.idProprietary;
@@ -371,12 +367,12 @@ export class WalletManager {
         fragmentW.appendChild(option);
       }
     });
-    name_edit.append(fragmentW);
+    nameEdit.append(fragmentW);
 
     document.getElementById("wallets-group").classList.add("hidden");
     document.getElementById("edit-wallet-group").classList.remove("hidden");
     document
-      .querySelector("#name_edit")
+      .querySelector("#nameEdit")
       .addEventListener("change", async (event) => {
         const selectedWalletId = event.target.value;
         const selectedWalletName = event.target.selectedOptions[0].label;
@@ -388,19 +384,19 @@ export class WalletManager {
           shareWallet = false;
         }
         document.querySelector("#share").checked = shareWallet;
-        document.getElementById("description_wallet_edit").value = description;
+        document.getElementById("descriptionWalletEdit").value = description;
         document
-          .getElementById("description_wallet_edit")
+          .getElementById("descriptionWalletEdit")
           .addEventListener("change", async (event) => {
             WalletManager.addDescriptionWallet(selectedWalletId);
           });
 
-        document.getElementById("name_edit_group").classList.add("hidden");
+        document.getElementById("nameEditGroup").classList.add("hidden");
         document.getElementById("editwallet").classList.remove("hidden");
         document
           .getElementById("group-edit-name-wallet")
           .classList.remove("hidden");
-        document.getElementById("name_edit_new").value = selectedWalletName;
+        document.getElementById("nameEditNew").value = selectedWalletName;
         document.querySelector("#share").addEventListener("click", () => {
           WalletManager.shareWallet(selectedWalletId);
         });
@@ -447,26 +443,26 @@ export class WalletManager {
       });
 
     document.querySelectorAll(".GroupMember").forEach(function (element) {
-      const member_id = element.dataset.memberId;
+      const memberId = element.dataset.memberId;
       document
-        .querySelector("#buttonDel" + member_id)
+        .querySelector("#buttonDel" + memberId)
         .addEventListener("click", () => {
-          WalletManager.delMember(member_id, selectedWalletId);
+          WalletManager.delMember(memberId, selectedWalletId);
         });
       document
-        .querySelector("#buttonEdit" + member_id)
+        .querySelector("#buttonEdit" + memberId)
         .addEventListener("click", () => {
-          WalletManager.putMember(member_id);
+          WalletManager.putMember(memberId);
         });
     });
   }
 
-  static async shareWallet(wallet_id) {
+  static async shareWallet(walletId) {
     const share = document.getElementById("share").checked;
     if (share == true) {
-      RequestPut.shareWallet(1, wallet_id);
+      RequestPut.shareWallet(1, walletId);
     } else {
-      RequestPut.shareWallet(0, wallet_id);
+      RequestPut.shareWallet(0, walletId);
     }
   }
 
@@ -484,58 +480,54 @@ export class WalletManager {
     console.log("delWallet");
   }
 
-  static async addDescriptionWallet(wallet_id) {
-    const description = document.getElementById(
-      "description_wallet_edit"
-    ).value;
-    RequestPut.addDescription(wallet_id, description);
+  static async addDescriptionWallet(walletId) {
+    const description = document.getElementById("descriptionWalletEdit").value;
+    RequestPut.addDescription(walletId, description);
     document
-      .getElementById("description_wallet_edit")
+      .getElementById("descriptionWalletEdit")
       .classList.add("changeInput");
   }
 
-  static async putMember(member_id) {
-    const name_new = document.querySelector("#Member" + member_id).value;
-    const name_old = document.querySelector("#GroupMember" + member_id).dataset
+  static async putMember(memberId) {
+    const nameNew = document.querySelector("#Member" + memberId).value;
+    const nameOld = document.querySelector("#GroupMember" + memberId).dataset
       .memberNickname;
-    const respuesta = await RequestPut.putNickname(name_old, name_new);
+    const respuesta = await RequestPut.putNickname(nameOld, nameNew);
     if (respuesta === true) {
-      document
-        .getElementById("Member" + member_id)
-        .classList.add("changeInput");
+      document.getElementById("Member" + memberId).classList.add("changeInput");
     } else {
       document
-        .getElementById("Member" + member_id)
+        .getElementById("Member" + memberId)
         .classList.add("changeInputError");
     }
-    document.getElementById("Member" + member_id).classList.add("changeInput");
+    document.getElementById("Member" + memberId).classList.add("changeInput");
     console.log("putMember");
   }
 
   static async editUser() {
     WalletManager.menuHideAll();
     document.querySelector("#edit-user-group").classList.remove("hidden");
-    const member_id =
+    const memberId =
       document.querySelector("#name-proprietary").dataset.idProprietary;
-    const member_name =
+    const memberName =
       document.querySelector("#name-proprietary").dataset.nameProprietary;
-    const member_nickname =
+    const memberNickname =
       document.querySelector("#name-proprietary").dataset.nicknameProprietary;
-    document.querySelector("#nickname-name").value = member_nickname;
-    document.querySelector("#user-name").value = member_name;
+    document.querySelector("#nickname-name").value = memberNickname;
+    document.querySelector("#user-name").value = memberName;
     document
       .querySelector("#buttonEditNickname")
       .addEventListener("click", () => {
-        WalletManager.putMember(member_id);
+        WalletManager.putMember(memberId);
       });
     document.querySelector("#buttonDelUser").addEventListener("click", () => {
-      WalletManager.delUser(member_id, member_name);
+      WalletManager.delUser(memberId, memberName);
     });
     document.querySelector("#buttonEditUser").addEventListener("click", () => {
-      WalletManager.putUser(member_name, member_id);
+      WalletManager.putUser(memberName, memberId);
     });
     document.querySelector("#buttonEditPin").addEventListener("click", () => {
-      WalletManager.putPin(member_id);
+      WalletManager.putPin(memberId);
     });
     document
       .querySelector("#buttonEditUser-atras")
@@ -545,7 +537,7 @@ export class WalletManager {
       });
   }
 
-  static async delUser(userId, user_name) {
+  static async delUser(userId, userName) {
     const respuesta = await RequestDel.delUser(userId);
     if (respuesta === true) {
       document.location.href = "index.html";
@@ -553,29 +545,29 @@ export class WalletManager {
       document.getElementById("user-name").classList.add("changeInputError");
       alert(
         "El Miembro " +
-          user_name +
+          userName +
           " no se puede eliminar porque pertenece a algún Wallet, primero debe saldar cuentas y salir del Wallet."
       );
     }
     console.log("delMember");
   }
 
-  static async putUser(name_old, userId) {
-    const pin_now = document.querySelector("#pin-now").value;
-    if (pin_now.length == 0) {
+  static async putUser(nameOld, userId) {
+    const pinNow = document.querySelector("#pin-now").value;
+    if (pinNow.length == 0) {
       alert(
         "Debe introducir el Pin de Sesión Actual para modificar el Nombre de Inicio de Sesión"
       );
       document.getElementById("pin-now").classList.add("changeInputError");
     } else {
       const pin = await RequestGet.getPinId(userId);
-      if (pin[0]["pin"] == pin_now) {
-        const name_new = document.querySelector("#user-name").value;
-        const respuesta = await RequestPut.putUser(name_old, name_new);
+      if (pin[0]["pin"] == pinNow) {
+        const nameNew = document.querySelector("#user-name").value;
+        const respuesta = await RequestPut.putUser(nameOld, nameNew);
         if (respuesta === true) {
           alert(
             "RECUERDE que en el próximo Inicio de Sesión su Usuario será " +
-              name_new
+              nameNew
           );
           document.getElementById("user-name").classList.add("changeInput");
         } else {
@@ -593,24 +585,24 @@ export class WalletManager {
   }
 
   static async putPin(userId) {
-    const pin_now = document.querySelector("#pin-now").value;
-    const pin_new = document.querySelector("#pin-new").value;
+    const pinNow = document.querySelector("#pin-now").value;
+    const pinNew = document.querySelector("#pin-new").value;
     document.getElementById("pin-now").classList.remove("changeInputError");
     document.getElementById("pin-new").classList.remove("changeInputError");
-    if (pin_now.length == 0) {
+    if (pinNow.length == 0) {
       alert("Debe introducir el Pin de Sesión Actual");
       document.getElementById("pin-now").classList.add("changeInputError");
-      if (pin_new.length == 0) {
+      if (pinNew.length == 0) {
         alert("Debe introducir el Pin de Sesión Nuevo");
         document.getElementById("pin-new").classList.add("changeInputError");
       }
     } else {
       const pin = await RequestGet.getPinId(userId);
-      if (pin[0]["pin"] == pin_now) {
-        const respuesta = await RequestPut.putPin(pin_now, pin_new, userId);
+      if (pin[0]["pin"] == pinNow) {
+        const respuesta = await RequestPut.putPin(pinNow, pinNew, userId);
         if (respuesta === true) {
           alert(
-            "RECUERDE que en el próximo Inicio de Sesión su PIN será " + pin_new
+            "RECUERDE que en el próximo Inicio de Sesión su PIN será " + pinNew
           );
           document.getElementById("pin-new").classList.add("changeInput");
           document.getElementById("pin-now").classList.remove("changeInput");
@@ -628,66 +620,62 @@ export class WalletManager {
     console.log("putPin");
   }
 
-  static async addMemberWalet(wallet_id) {
-    const name_add = document.getElementById("newMemberWallet_new").value;
-    const members_list = document.querySelectorAll(".GroupMember").length;
-    await RequestPost.postMember(wallet_id, name_add);
-    if (members_list == 0) {
-      await RequestPut.putProprietary(wallet_id, name_add);
+  static async addMemberWalet(walletId) {
+    const nameAdd = document.getElementById("newMemberWalletNew").value;
+    const membersList = document.querySelectorAll(".GroupMember").length;
+    await RequestPost.postMember(walletId, nameAdd);
+    if (membersList == 0) {
+      await RequestPut.putProprietary(walletId, nameAdd);
     }
     document.getElementById("membersEdit-selector").innerHTML = "";
-    WalletManager.editWalletMembers(wallet_id);
+    WalletManager.editWalletMembers(walletId);
     console.log("addMemberWalet");
   }
 
-  static async delMember(member_id, wallet_id) {
-    const member_name = document.querySelector("#Member" + member_id).value;
-    const respuesta = await RequestDel.delMember(wallet_id, member_id);
+  static async delMember(memberId, walletId) {
+    const memberName = document.querySelector("#Member" + memberId).value;
+    const respuesta = await RequestDel.delMember(walletId, memberId);
     if (respuesta === true) {
-      document
-        .getElementById("GroupMember" + member_id)
-        .classList.add("hidden");
+      document.getElementById("GroupMember" + memberId).classList.add("hidden");
       document
         .getElementById("membersEdit-selector")
         .classList.remove("hidden");
     } else {
       document
-        .getElementById("Member" + member_id)
+        .getElementById("Member" + memberId)
         .classList.add("changeInputError");
       alert(
         "El Miembro " +
-          member_name +
+          memberName +
           " no se puede eliminar porque tiene pendiente saldar cuentas."
       );
     }
     console.log("delMember");
   }
 
-  static async editWalletName(name_old) {
-    const name_new = document.getElementById("name_edit_new").value;
-    const respuesta = await RequestPut.putWallet(name_old, name_new);
+  static async editWalletName(nameOld) {
+    const nameNew = document.getElementById("nameEditNew").value;
+    const respuesta = await RequestPut.putWallet(nameOld, nameNew);
 
     if (respuesta === true) {
-      document.getElementById("name_edit_new").classList.add("changeInput");
+      document.getElementById("nameEditNew").classList.add("changeInput");
     } else {
-      document
-        .getElementById("name_edit_new")
-        .classList.add("changeInputError");
+      document.getElementById("nameEditNew").classList.add("changeInputError");
     }
-    document.getElementById("name_edit_new").classList.add("changeInput");
+    document.getElementById("nameEditNew").classList.add("changeInput");
     console.log("editWalletName");
   }
 
   static async addMember() {
-    const name_add = document.getElementById("name_add").value;
-    const wallet = await RequestGet.getWalletToId(name_add);
-    const wallet_id = wallet[0]["id"];
-    const member_add = document.getElementById("new_add").value;
-    RequestPost.postMember(wallet_id, member_add);
-    WalletManager.fillMembersSelector([member_add]);
-    document.getElementById("new_add").value = "";
+    const nameAdd = document.getElementById("nameAdd").value;
+    const wallet = await RequestGet.getWalletToId(nameAdd);
+    const walletId = wallet[0]["id"];
+    const memberAdd = document.getElementById("newAdd").value;
+    RequestPost.postMember(walletId, memberAdd);
+    WalletManager.fillMembersSelector([memberAdd]);
+    document.getElementById("newAdd").value = "";
     console.log("addMember");
-    return member_add;
+    return memberAdd;
   }
 
   fillMembersSelector(members) {
@@ -706,9 +694,9 @@ export class WalletManager {
   }
 
   static async checkInput(elemetById) {
-    const name_new = document.getElementById(elemetById).value;
+    const nameNew = document.getElementById(elemetById).value;
     document.getElementById(elemetById).classList.remove("changeInputError");
-    if (name_new == "") {
+    if (nameNew == "") {
       document.getElementById(elemetById).classList.add("changeInputError");
       document.getElementById("button-edit-save").disabled = true;
       document.getElementById("button-save").disabled = true;
@@ -763,20 +751,20 @@ export class WalletManager {
     document.querySelector("#button-edit-save").classList.add("hidden");
     document.querySelector("#buttonDelTransac").classList.add("hidden");
     document.querySelector("#participants-selector").value = "Todos";
-    document.getElementById("description_add").addEventListener("blur", () => {
-      WalletManager.checkInput("description_add");
+    document.getElementById("descriptionAdd").addEventListener("blur", () => {
+      WalletManager.checkInput("descriptionAdd");
     });
-    document.getElementById("amount_add").addEventListener("blur", () => {
-      WalletManager.checkInput("amount_add");
+    document.getElementById("amountAdd").addEventListener("blur", () => {
+      WalletManager.checkInput("amountAdd");
     });
-    document.getElementById("description_add").focus();
+    document.getElementById("descriptionAdd").focus();
     document.querySelector("#adddate-selector").value =
       TransactionManager.dateTimeNow();
     TransactionManager.init(selectedWalletId);
     console.log("showAddTransac");
   }
 
-  static showEditTransac(transac_id, selectedWalletId) {
+  static showEditTransac(transacId, selectedWalletId) {
     document.getElementById("button-edit-save").disabled = true;
     document.querySelector("#wallets-group").classList.add("hidden");
     document.querySelector("#transactions-group").classList.add("hidden");
@@ -789,17 +777,17 @@ export class WalletManager {
     document.querySelector("#button-edit-save").classList.remove("hidden");
     document.querySelector("#buttonDelTransac").classList.remove("hidden");
     document
-      .getElementById("description_add")
+      .getElementById("descriptionAdd")
       .classList.remove("changeInputError");
-    document.getElementById("amount_add").classList.remove("changeInputError");
-    document.getElementById("description_add").addEventListener("blur", () => {
-      WalletManager.checkInput("description_add");
+    document.getElementById("amountAdd").classList.remove("changeInputError");
+    document.getElementById("descriptionAdd").addEventListener("blur", () => {
+      WalletManager.checkInput("descriptionAdd");
     });
-    document.getElementById("amount_add").addEventListener("blur", () => {
-      WalletManager.checkInput("amount_add");
+    document.getElementById("amountAdd").addEventListener("blur", () => {
+      WalletManager.checkInput("amountAdd");
     });
-    document.getElementById("description_add").focus();
-    TransactionManager.initTransaction(transac_id, selectedWalletId);
+    document.getElementById("descriptionAdd").focus();
+    TransactionManager.initTransaction(transacId, selectedWalletId);
     console.log("showEditTransac");
   }
 
@@ -832,8 +820,8 @@ export class WalletManager {
     document
       .querySelector("#newCategory-save")
       .addEventListener("click", () => {
-        const category_new = document.querySelector("#newCategory").value;
-        TransactionManager.saveCategory(category_new);
+        const categoryNew = document.querySelector("#newCategory").value;
+        TransactionManager.saveCategory(categoryNew);
         WalletManager.editCategoryShow();
       });
 
@@ -852,8 +840,8 @@ export class WalletManager {
 
   showButtonEdit() {
     const transactions = document.querySelectorAll(".mini-button-hidden");
-    const trans_length = transactions.length;
-    for (let i = 0; i < trans_length; i++) {
+    const transLength = transactions.length;
+    for (let i = 0; i < transLength; i++) {
       var transactio = transactions[i];
       transactio.className = "mini-button";
     }
@@ -862,8 +850,8 @@ export class WalletManager {
 
   static hiddenButtonEdit() {
     const transactions = document.querySelectorAll(".mini-button");
-    const trans_length = transactions.length;
-    for (let i = 0; i < trans_length; i++) {
+    const transLength = transactions.length;
+    for (let i = 0; i < transLength; i++) {
       var transactio = transactions[i];
       transactio.className = "mini-button-hidden";
     }
@@ -871,8 +859,8 @@ export class WalletManager {
   }
 
   static exitTransaction() {
-    document.getElementById("description_add").value = "";
-    document.getElementById("amount_add").value = "";
+    document.getElementById("descriptionAdd").value = "";
+    document.getElementById("amountAdd").value = "";
     document.querySelector("#category-selected").value = "";
     document.querySelector("#payers-selector").value = "";
     console.log("exitTransaction");
@@ -889,17 +877,17 @@ export class WalletManager {
   }
 
   static async permanentUserRead() {
-    let objet_load = localStorage.getItem("key");
-    objet_load = JSON.parse(objet_load);
-    const id_proprietary = objet_load["Id"];
-    if (id_proprietary == undefined) {
+    let objetLoad = localStorage.getItem("key");
+    objetLoad = JSON.parse(objetLoad);
+    const idProprietary = objetLoad["Id"];
+    if (idProprietary == undefined) {
       localStorage.clear();
       document.location.href = "index.html";
     } else {
-      let name_proprietary = await RequestGet.getNameById(id_proprietary);
+      let nameProprietary = await RequestGet.getNameById(idProprietary);
       document.querySelector(
         "#proprietary-wallets"
-      ).innerHTML = `<div id="name-proprietary" data-name-proprietary='${name_proprietary.username}' data-id-proprietary='${id_proprietary}' data-nickname-proprietary='${name_proprietary.nickname}'>Wallets de ${name_proprietary.username}</div><div>Alias ${name_proprietary.nickname}</div>`;
+      ).innerHTML = `<div id="name-proprietary" data-name-proprietary='${nameProprietary.username}' data-id-proprietary='${idProprietary}' data-nickname-proprietary='${nameProprietary.nickname}'>Wallets de ${nameProprietary.username}</div><div>Alias ${nameProprietary.nickname}</div>`;
       console.log("permanentUserRead");
     }
   }

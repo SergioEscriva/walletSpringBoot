@@ -2,114 +2,114 @@ import { UrlPath } from "./UrlPath.js";
 
 export class RequestPut {
   //PUT
-  static async putProprietary(wallet_id, proprietary) {
-    const url = UrlPath.URL.WALLET + wallet_id + "/proprietary/" + proprietary;
-    const proprietary_update = {
+  static async putProprietary(walletId, proprietary) {
+    const url = UrlPath.URL.WALLET + walletId + "/proprietary/" + proprietary;
+    const proprietaryUpdate = {
       method: "PUT",
-      body: JSON.stringify(wallet_id, proprietary),
+      body: JSON.stringify(walletId, proprietary),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     };
-    return await RequestPut._putRequest(url, proprietary_update);
+    return await RequestPut._putRequest(url, proprietaryUpdate);
   }
 
-  static async putWallet(wallet_name, name_new) {
-    const url = UrlPath.URL.WALLET + wallet_name + "/" + name_new;
-    const wallet_put = {
+  static async putWallet(walletName, nameNew) {
+    const url = UrlPath.URL.WALLET + walletName + "/" + nameNew;
+    const walletPut = {
       method: "PUT",
-      body: JSON.stringify({ wallet_name, name_new }),
+      body: JSON.stringify({ walletName, nameNew }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     };
-    return await RequestPut._putRequest(url, wallet_put);
+    return await RequestPut._putRequest(url, walletPut);
   }
 
   static async editTransaction(transaction) {
     const url = UrlPath.URL.TRANSACTION;
-    const transaction_add = {
+    const transactionAdd = {
       method: "PUT",
       body: JSON.stringify(transaction),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     };
-    return await RequestPut._putRequest(url, transaction_add);
+    return await RequestPut._putRequest(url, transactionAdd);
   }
 
-  static async editCategory(category_old, category_new) {
-    const url = UrlPath.URL.CATEGORIES + category_old + "/" + category_new;
-    const category_edit = {
+  static async editCategory(categoryOld, categoryNew) {
+    const url = UrlPath.URL.CATEGORIES + categoryOld + "/" + categoryNew;
+    const categoryEdit = {
       method: "PUT",
-      body: JSON.stringify(category_old, category_new),
+      body: JSON.stringify(categoryOld, categoryNew),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     };
-    return await RequestPut._putRequest(url, category_edit);
+    return await RequestPut._putRequest(url, categoryEdit);
   }
 
-  static async putNickname(member_name, name_new) {
-    const url = UrlPath.URL.USER + "nickname/" + member_name + "/" + name_new;
-    const member_put = {
+  static async putNickname(memberName, nameNew) {
+    const url = UrlPath.URL.USER + "nickname/" + memberName + "/" + nameNew;
+    const memberPut = {
       method: "PUT",
-      body: JSON.stringify({ member_name, name_new }),
+      body: JSON.stringify({ memberName, nameNew }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     };
-    return await RequestPut._putRequest(url, member_put);
+    return await RequestPut._putRequest(url, memberPut);
   }
 
-  static async putUser(member_name, name_new) {
-    const url = UrlPath.URL.USER + member_name + "/" + name_new;
-    const member_put = {
+  static async putUser(memberName, nameNew) {
+    const url = UrlPath.URL.USER + memberName + "/" + nameNew;
+    const memberPut = {
       method: "PUT",
-      body: JSON.stringify({ member_name, name_new }),
+      body: JSON.stringify({ memberName, nameNew }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     };
-    return await RequestPut._putRequest(url, member_put);
+    return await RequestPut._putRequest(url, memberPut);
   }
 
-  static async putPin(pin_old, pin_new, userId) {
+  static async putPin(pinOld, pinNew, userId) {
     const url =
-      UrlPath.URL.USER + "pin/" + pin_old + "/" + pin_new + "/" + userId;
-    const pin_put = {
+      UrlPath.URL.USER + "pin/" + pinOld + "/" + pinNew + "/" + userId;
+    const pinPut = {
       method: "PUT",
-      body: JSON.stringify({ pin_old, pin_new, userId }),
+      body: JSON.stringify({ pinOld, pinNew, userId }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     };
-    return await RequestPut._putRequest(url, pin_put);
+    return await RequestPut._putRequest(url, pinPut);
   }
 
-  static async shareWallet(share, wallet_id) {
-    const url = UrlPath.URL.WALLET + "share/" + wallet_id + "/" + share;
-    const share_put = {
+  static async shareWallet(share, walletId) {
+    const url = UrlPath.URL.WALLET + "share/" + walletId + "/" + share;
+    const sharePut = {
       method: "PUT",
-      body: JSON.stringify({ wallet_id, share }),
+      body: JSON.stringify({ walletId, share }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     };
-    return await RequestPut._putRequest(url, share_put);
+    return await RequestPut._putRequest(url, sharePut);
   }
 
-  static async addDescription(wallet_id, description) {
+  static async addDescription(walletId, description) {
     const url =
-      UrlPath.URL.WALLET + "description/" + wallet_id + "/" + description;
-    const description_put = {
+      UrlPath.URL.WALLET + "description/" + walletId + "/" + description;
+    const descriptionPut = {
       method: "PUT",
-      body: JSON.stringify({ wallet_id, description }),
+      body: JSON.stringify({ walletId, description }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     };
-    return await RequestPut._putRequest(url, description_put);
+    return await RequestPut._putRequest(url, descriptionPut);
   }
 
   //REQUEST

@@ -7,17 +7,17 @@ import { RequestPut } from "./RequestPut.js";
 //import { RequestPut } from './RequestPut.js'
 
 export class TransactionManager {
-  constructor(wallet_id, categories, members) {
-    this.initialiting(wallet_id, categories, members);
+  constructor(walletId, categories, members) {
+    this.initialiting(walletId, categories, members);
   }
 
-  static async init(wallet_id) {
+  static async init(walletId) {
     const categories = await RequestGet.getCategories();
-    const members = await RequestGet.getMembers(wallet_id);
-    return new TransactionManager(wallet_id, categories, members);
+    const members = await RequestGet.getMembers(walletId);
+    return new TransactionManager(walletId, categories, members);
   }
 
-  initialiting(wallet_id, categories, members) {
+  initialiting(walletId, categories, members) {
     TransactionManager.fillCategorySelector(categories);
     TransactionManager.fillMembersSelector(members);
     TransactionManager.fillParticipantsSelector(members);
@@ -100,28 +100,28 @@ export class TransactionManager {
             `;
     });
     document.querySelectorAll(".GroupCategory").forEach(function (element) {
-      const category_id = element.dataset.categoryId;
-      const category_old = document.querySelector(
-        "#Category" + category_id
+      const categoryId = element.dataset.categoryId;
+      const categoryOld = document.querySelector(
+        "#Category" + categoryId
       ).value;
       document
-        .querySelector("#buttonDelCat" + category_id)
+        .querySelector("#buttonDelCat" + categoryId)
         .addEventListener("click", () => {
           document
-            .querySelector("#GroupCategory" + category_id)
+            .querySelector("#GroupCategory" + categoryId)
             .classList.add("hidden");
-          RequestDel.delCategory(category_id);
+          RequestDel.delCategory(categoryId);
         });
       document
-        .querySelector("#buttonEditCat" + category_id)
+        .querySelector("#buttonEditCat" + categoryId)
         .addEventListener("click", () => {
           document
-            .getElementById("Category" + category_id)
+            .getElementById("Category" + categoryId)
             .classList.add("changeInput");
-          const category_new = document.querySelector(
-            "#Category" + category_id
+          const categoryNew = document.querySelector(
+            "#Category" + categoryId
           ).value;
-          RequestPut.editCategory(category_old, category_new);
+          RequestPut.editCategory(categoryOld, categoryNew);
         });
     });
 
@@ -129,97 +129,96 @@ export class TransactionManager {
   }
 
   static async addTransac(selectedWalletId) {
-    var description_value = document.getElementById("description_add").value;
-    var amount_value = document.getElementById("amount_add").value;
+    var descriptionValue = document.getElementById("descriptionAdd").value;
+    var amountValue = document.getElementById("amountAdd").value;
     const categorySelector = document.querySelector("#category-selected").value;
 
     const categoryId = await RequestGet.getCategoryByName(categorySelector);
 
     var checked = document.querySelectorAll("#participants-selector :checked");
-    const selectedParticipant_add = [...checked].map((option) => option.value);
-    var selectedPayer_add = document.querySelector("#payers-selector").value;
-    const selectedPayer = await RequestGet.getUserIdByName(selectedPayer_add);
-    const dateMember_add = document.querySelector("#adddate-selector").value;
-    var selectedParticipants = String(selectedParticipant_add);
+    const selectedParticipantAdd = [...checked].map((option) => option.value);
+    var selectedPayerAdd = document.querySelector("#payers-selector").value;
+    const selectedPayer = await RequestGet.getUserIdByName(selectedPayerAdd);
+    const dateMemberAdd = document.querySelector("#adddate-selector").value;
+    var selectedParticipants = String(selectedParticipantAdd);
 
-    const transaction_add = {
+    const transactionAdd = {
       category: categoryId.id,
-      description: description_value,
-      amount: amount_value,
+      description: descriptionValue,
+      amount: amountValue,
       userId: selectedPayer,
-      date: dateMember_add,
+      date: dateMemberAdd,
       walletId: selectedWalletId,
       participants: selectedParticipants,
     };
     TransactionManager.saveCategory(categorySelector);
     const validate = TransactionManager.validateParticipants(
-      selectedParticipant_add
+      selectedParticipantAdd
     );
     if (validate === true) {
-      const request = await RequestPost.postTransaction(transaction_add);
+      const request = await RequestPost.postTransaction(transactionAdd);
       TransactionManager.initTransaction(0, selectedWalletId);
       return request;
     }
   }
 
-  static async initTransaction(transac_id, selectedWalletId) {
+  static async initTransaction(transacId, selectedWalletId) {
     TransactionManager.init(selectedWalletId);
-    const transactionData = await RequestGet.getTransaction(transac_id);
+    const transactionData = await RequestGet.getTransaction(transacId);
     transactionData.forEach((transaction) => {
-      document.getElementById("amount_add").value = transaction.amount;
-      document.getElementById("description_add").value =
-        transaction.description;
+      document.getElementById("amountAdd").value = transaction.amount;
+      document.getElementById("descriptionAdd").value = transaction.description;
       document.getElementById("participants-selector").value =
         transaction.participants;
       document.getElementById("category-selected").value = transaction.category;
-      document.getElementById("transac_id").value = transac_id;
+      document.getElementById("transacId").value = transacId;
       document.getElementById("adddate-selector").value = transaction.date;
     });
   }
 
   static async editTransac(selectedWalletId) {
-    var transac_id = document.getElementById("transac_id").value;
-    var description_value = document.getElementById("description_add").value;
-    var amount_value = document.getElementById("amount_add").value;
-    var selectedCategory_add =
+    var transacId = document.getElementById("transacId").value;
+    var descriptionValue = document.getElementById("descriptionAdd").value;
+    var amountValue = document.getElementById("amountAdd").value;
+    var selectedCategoryAdd =
       document.querySelector("#category-selected").value;
     var checked = document.querySelectorAll("#participants-selector :checked");
-    const selectedParticipant_add = [...checked].map((option) => option.value);
-    var selectedPayer_add = document.querySelector("#payers-selector").value;
-    const dateMember_add = document.querySelector("#adddate-selector").value;
-    //const wallet_id = document.querySelector('#wallet-selector').value;
-    const transaction_add = {
-      id: transac_id,
-      category: selectedCategory_add,
-      description: description_value,
-      amount: amount_value,
-      userId: selectedPayer_add,
-      date: dateMember_add,
-      wallet_id: selectedWalletId,
-      participants: selectedParticipant_add,
+    const selectedParticipantAdd = [...checked].map((option) => option.value);
+    var selectedPayerAdd = document.querySelector("#payers-selector").value;
+    const dateMemberAdd = document.querySelector("#adddate-selector").value;
+    //const walletId = document.querySelector('#wallet-selector').value;
+    const transactionAdd = {
+      id: transacId,
+      category: selectedCategoryAdd,
+      description: descriptionValue,
+      amount: amountValue,
+      userId: selectedPayerAdd,
+      date: dateMemberAdd,
+      walletId: selectedWalletId,
+      participants: selectedParticipantAdd,
     };
-    TransactionManager.saveCategory(selectedCategory_add);
+    TransactionManager.saveCategory(selectedCategoryAdd);
     const validate = TransactionManager.validateParticipants(
-      selectedParticipant_add
+      selectedParticipantAdd
     );
     if (validate === true) {
-      const request = await RequestPut.editTransaction(transaction_add);
+      const request = await RequestPut.editTransaction(transactionAdd);
       TransactionManager.initTransaction(0, selectedWalletId);
       return request;
     }
     console.log("editTransac");
   }
 
-  static async saveCategory(category_selected) {
+  static async saveCategory(categorySelected) {
     const categories = await RequestGet.getCategories();
     var categorys = [];
     for (var i = 0; i < categories.length; i++) {
       let category = categories[i]["category"];
       categorys.push(category);
     }
-    const resultado = categorys.includes(category_selected);
+    const resultado = categorys.includes(categorySelected);
     if (resultado == false) {
-      RequestPost.postCategory(category_selected);
+      RequestPost.postCategory(categorySelected);
     }
     console.log("saveCategory");
   }
@@ -232,8 +231,8 @@ export class TransactionManager {
   }
 
   static async delTransaction(selectedWalletId) {
-    var transac_id = document.getElementById("transac_id").value;
-    const transactionData = await RequestGet.getTransaction(transac_id);
+    var transacId = document.getElementById("transacId").value;
+    const transactionData = await RequestGet.getTransaction(transacId);
     const description = transactionData[0]["description"];
     const amount = transactionData[0].amount;
     var mensaje;
@@ -245,14 +244,14 @@ export class TransactionManager {
         "€) ?"
     );
     if (opcion == true) {
-      RequestDel.delTransac(transac_id);
-      document.getElementById("transac_id" + transac_id).className = "hidden";
+      RequestDel.delTransac(transacId);
+      document.getElementById("transacId" + transacId).className = "hidden";
     }
   }
 
   static exitTransaction() {
-    document.getElementById("description_add").value = "";
-    document.getElementById("amount_add").value = "";
+    document.getElementById("descriptionAdd").value = "";
+    document.getElementById("amountAdd").value = "";
     document.querySelector("#category-selected").value = "";
     document.querySelector("#payers-selector").value = "";
   }
@@ -263,21 +262,21 @@ export class TransactionManager {
     var date =
       now.getFullYear() + "/" + (now.getMonth() + 1) + "/" + now.getDate();
     var time = now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
-    var date_time = date + ", " + time;
-    return date_time;
+    var dateTime = date + ", " + time;
+    return dateTime;
   }
 
   static changeDate() {
     document.querySelector("#adddate-selector").classList.add("hidden");
     document.querySelector("#button-date").classList.add("hidden");
-    document.querySelector("#form_datetime").classList.remove("hidden");
-    document.querySelector("#form_datetime").addEventListener("change", () => {
-      let valor = document.querySelector("#form_datetime").value;
+    document.querySelector("#formDatetime").classList.remove("hidden");
+    document.querySelector("#formDatetime").addEventListener("change", () => {
+      let valor = document.querySelector("#formDatetime").value;
       valor = valor.replace(/-/g, "/");
       valor = valor.replace(/T/g, ", ");
       document.querySelector("#adddate-selector").value = valor;
       document.querySelector("#adddate-selector").classList.remove("hidden");
-      document.querySelector("#form_datetime").classList.add("hidden");
+      document.querySelector("#formDatetime").classList.add("hidden");
       document.querySelector("#button-date").classList.remove("hidden");
     });
   }

@@ -5,63 +5,63 @@ export class RequestPost {
   static async postTransaction(transaction) {
     const url = UrlPath.URL.TRANSACTION + "add";
     //console.log(transaction)
-    const transaction_add = {
+    const transactionAdd = {
       method: "POST",
       body: JSON.stringify(transaction),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     };
-    return await RequestPost._postRequest(url, transaction_add);
+    return await RequestPost._postRequest(url, transactionAdd);
   }
 
-  static async postCategory(new_category) {
-    const url = UrlPath.URL.CATEGORIES + new_category;
-    const category_add = {
+  static async postCategory(newCategory) {
+    const url = UrlPath.URL.CATEGORIES + newCategory;
+    const categoryAdd = {
       method: "POST",
-      body: JSON.stringify({ new_category }),
+      body: JSON.stringify({ newCategory }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     };
-    return await RequestPost._postRequest(url, category_add);
+    return await RequestPost._postRequest(url, categoryAdd);
   }
 
-  static async postUser(new_user, pin) {
-    const url = UrlPath.URL.USER + new_user + "/" + pin;
-    const user_add = {
+  static async postUser(newUser, pin) {
+    const url = UrlPath.URL.USER + newUser + "/" + pin;
+    const userAdd = {
       method: "POST",
-      body: JSON.stringify(new_user, pin),
+      body: JSON.stringify(newUser, pin),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     };
-    return await RequestPost._postRequest(url, user_add);
+    return await RequestPost._postRequest(url, userAdd);
   }
 
-  static async postMember(wallet_id, member_name, pin) {
+  static async postMember(walletId, memberName, pin) {
     const url =
-      UrlPath.URL.WALLET + wallet_id + "/member/" + member_name + "/" + pin;
-    const member_add = {
+      UrlPath.URL.WALLET + walletId + "/member/" + memberName + "/" + pin;
+    const memberAdd = {
       method: "POST",
-      body: JSON.stringify({ wallet_id, member_name }),
+      body: JSON.stringify({ walletId, memberName }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     };
-    return await RequestPost._postRequest(url, member_add);
+    return await RequestPost._postRequest(url, memberAdd);
   }
 
-  static async postWallet(wallet_name, proprietary) {
-    const url = UrlPath.URL.WALLET + wallet_name + "/" + proprietary;
-    const wallet_add = {
+  static async postWallet(walletName, proprietary) {
+    const url = UrlPath.URL.WALLET + walletName + "/" + proprietary;
+    const walletAdd = {
       method: "POST",
-      body: JSON.stringify({ wallet_name, proprietary }),
+      body: JSON.stringify({ walletName, proprietary }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     };
-    return await RequestPost._postRequest(url, wallet_add);
+    return await RequestPost._postRequest(url, walletAdd);
   }
 
   static async postFile(file) {
