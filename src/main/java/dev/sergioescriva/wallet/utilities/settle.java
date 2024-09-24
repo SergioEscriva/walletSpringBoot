@@ -1,46 +1,52 @@
 package dev.sergioescriva.wallet.utilities;
 
+import java.util.List;
+
+import org.hibernate.engine.transaction.spi.TransactionObserver;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import dev.sergioescriva.wallet.models.Transaction;
+import dev.sergioescriva.wallet.models.User;
+import dev.sergioescriva.wallet.repositories.TransactionRepository;
+import dev.sergioescriva.wallet.services.TransactionServiceImp;
+
 public class settle {
-    /*
-     * #!/usr/bin/python
-     * # -*- coding: utf-8 -*-
-     * from utilities.sqlitedb import Database
-     * from utilities.transaction import Transaction
-     * from utilities.wallet import Wallet
-     * from utilities.print import Print
-     * 
-     * class Settle():
-     * def __init__(self):
-     * database = Database()
-     * self.conn = database.connection["conn"]
-     * self.cursor = database.connection["cursor"]
-     * 
-     * def walletTransactions(self,wallet_id):
-     * transactions = Transaction().transactions(wallet_id)
-     * all_names = []
-     * all_names_transaction = []
-     * for id_transac in transactions:
-     * participants = id_transac["participants"]
+
+   //@Autowired
+    //TransactionRepository repository;
+ 
+
+     public void walletTransactions(long walletId){
+        TransactionServiceImp transactionsAll = new TransactionServiceImp();
+     
+        //prueba
+         walletId = 1;
+      List<Transaction> transactions = transactionsAll.getAllTransactionByWalletId(walletId);  //get().transactions(wallet_id);
+      
+      List<User> allNames = ("");
+     * allNamesTransactions = [];
+     * for idTransac in transactions:
+     * participants = idTransac["participants"]
      * #participants = participants.split(",")
-     * name = id_transac["name"]
-     * amount = id_transac["amount"]
+     * name = idTransac["name"]
+     * amount = idTransac["amount"]
      * dats = (name,amount)
-     * all_names.append(dats)
+     * allNames.append(dats)
      * for names in participants:
      * name = (names,0.0)
-     * all_names.append(name)
-     * all_names_transaction.append(all_names)
-     * members_amounts = {}
-     * for x in all_names_transaction[0]:
-     * members_amounts.setdefault(x[0],[]).append(x[1])
-     * members_amounts_total = []
-     * members_balance_total = {}
-     * for n in members_amounts:
-     * member_amount = sum(members_amounts[n])
+     * allNames.append(name)
+     * allNamesTransactions.append(allNames)
+     * membersAmounts = {}
+     * for x in allNamesTransactions[0]:
+     * membersAmounts.setdefault(x[0],[]).append(x[1])
+     * membersAmountsTotal = []
+     * membersBalanceTotal = {}
+     * for n in membersAmounts:
+     * member_amount = sum(membersAmounts[n])
      * member_balance_total = {"%s" % n:member_amount}
-     * members_balance_total.update(member_balance_total)
-     * #print ("walletTransactions",members_balance_total)
-     * return members_balance_total
+     * membersBalance_total.update(member_balance_total)
+     * #print ("walletTransactions",membersBalance_total)
+     * return membersBalance_total
      * 
      * def divisionTransactions(self,wallet_id):
      * transactions = Transaction().transactions(wallet_id)
@@ -48,18 +54,18 @@ public class settle {
      * for transac_one in transactions:
      * transaction_one = Settle().namesTransaction(transac_one)
      * amounts = Settle().amountPerFriend(transaction_one)
-     * total_debt = amounts[0]
-     * amount_per_friend = amounts[1]
+     * totalDebt = amounts[0]
+     * amountPerFriend = amounts[1]
      * transaction = transaction_one[0]
      * participants = transaction_one[1]
      * debts = []
      * 
      * for participant,amount in transaction:
      * if amount <=0:
-     * debts = (participant, round(amount - amount_per_friend,2) )
+     * debts = (participant, round(amount - amountPerFriend,2) )
      * participants_amount.append(debts)
      * if amount >0:
-     * debts = (participant, total_debt )
+     * debts = (participant, totalDebt )
      * participants_amount.append(debts)
      * 
      * participants_amounts = {}
@@ -78,7 +84,7 @@ public class settle {
      * return participants_balance_total
      * 
      * def namesTransaction(self,transaction):
-     * all_names_transaction = []
+     * allNamesTransactions = []
      * participants = transaction["participants"]
      * name = transaction["name"]
      * amount = transaction["amount"]
@@ -86,19 +92,19 @@ public class settle {
      * for names in participants:
      * name = (names,0.0)
      * dats.append(name)
-     * all_names_transaction = dats
-     * members_total = [all_names_transaction, participants]
-     * return members_total
+     * allNamesTransactions = dats
+     * membersTotal = [allNamesTransactions, participants]
+     * return membersTotal
      * 
      * def amountPerFriend(self,transaction):
      * #transaccion = list(transaccion[0].items())
      * # Calculamos la deuda total
-     * total_debt = sum(friend[1] for friend in transaction[0])
+     * totalDebt = sum(friend[1] for friend in transaction[0])
      * # Calculamos la cantidad que cada amigo debería pagar
      * participants = (transaction[1])
-     * amount_per_friend = total_debt / len(participants)
-     * friend_amount = round(total_debt,2), round(amount_per_friend,2)
-     * return friend_amount
+     * amountPerFriend = totalDebt / len(participants)
+     * friendAmount = round(totalDebt,2), round(amountPerFriend,2)
+     * return friendAmount
      * 
      * 
      * 
@@ -113,53 +119,54 @@ public class settle {
      * # Creamos un diccionario para almacenar las soluciones
      * solutions = []
      * # Iteramos sobre la lista de los que tienen que pagar
-     * for payer, amount_pay in pay:
+     * for payer, amountPay in pay:
      * # Iteramos sobre la lista de los que tienen que recibir
-     * while abs(amount_pay) > 0:
-     * amount_pay = round(amount_pay,2)
-     * for receiver, amount_receive in receive:
-     * amount_receive = round(amount_receive,2)
+     * while abs(amountPay) > 0:
+     * amountPay = round(amountPay,2)
+     * for receiver, amountReceive in receive:
+     * amountReceive = round(amountReceive,2)
      * # Si el receptor debe recibir más de lo que el pagador tiene que pagar
-     * if amount_receive > abs(amount_pay):
-     * amount_pay_ini = amount_pay
+     * if amountReceive > abs(amountPay):
+     * amountPayIni = amountPay
      * # El pagador paga la cantidad que debe al receptor
-     * solutions.append([payer,receiver,abs(amount_pay)])
-     * #solutions[f"{payer} paga a {receiver}"] = abs(amount_pay)
+     * solutions.append([payer,receiver,abs(amountPay)])
+     * #solutions[f"{payer} paga a {receiver}"] = abs(amountPay)
      * # Actualizamos la cantidad que el receptor tiene que recibir
-     * receive[receive.index((receiver, round(amount_receive,2)))] = (receiver,
-     * round(amount_receive + amount_pay,2))
+     * receive[receive.index((receiver, round(amountReceive,2)))] = (receiver,
+     * round(amountReceive + amountPay,2))
      * # El pagador ya no tiene que pagar nada
      * 
-     * amount_pay = 0.0
-     * pay[pay.index((payer, amount_pay_ini))] = (payer, amount_pay)
+     * amountPay = 0.0
+     * pay[pay.index((payer, amountPayIni))] = (payer, amountPay)
      * # Salimos del bucle interno
      * break
      * # Si el receptor debe recibir menos o lo mismo de lo que el pagador tiene que
      * pagar
-     * if abs(amount_pay) == 0:
+     * if abs(amountPay) == 0:
      * # Salimos del bucle interno
      * break
-     * if abs(amount_pay) > 0:
-     * amount_pay_ini = amount_pay
+     * if abs(amountPay) > 0:
+     * amountPayIni = amountPay
      * # El pagador paga la cantidad que el receptor tiene que recibir
-     * solutions.append([payer,receiver,abs(amount_receive)])
-     * #solutions[f"{payer} paga a {receiver}"] = amount_receive
+     * solutions.append([payer,receiver,abs(amountReceive)])
+     * #solutions[f"{payer} paga a {receiver}"] = amountReceive
      * # Actualizamos la cantidad que el pagador tiene que pagar
-     * amount_pay += amount_receive
+     * amountPay += amountReceive
      * # El receptor ya no tiene que recibir nada
-     * receive.remove((receiver, round(amount_receive,2)))
-     * pay[pay.index((payer, amount_pay_ini))] = (payer, round(amount_pay,2))
+     * receive.remove((receiver, round(amountReceive,2)))
+     * pay[pay.index((payer, amountPayIni))] = (payer, round(amountPay,2))
      * break
      * if len(receive) == 0:
      * print ("Deduda sin Saldar--- pagador",pay,"recibe",receive)
      * break
      * 
-     * pagos = Settle().walletTransactions(wallet_id)
-     * solutions_all = solutions ,debts, pagos
-     * solution = Print().printSolutions(wallet_id, solutions_all)
-     * #print ("divisionWallet",soluciones_all)
+     * pagos = Settle().walletTransactions(walletId)
+     * solutionsAll = solutions ,debts, pagos
+     * solution = Print().printSolutions(walletId, solutionsAll)
+     * #print ("divisionWallet",solucionesAll)
      * return solution
      * 
      * 
      */
+}
 }

@@ -165,6 +165,7 @@ export class TransactionManager {
   static async initTransaction(transacId, selectedWalletId) {
     TransactionManager.init(selectedWalletId);
     const transactionData = await RequestGet.getTransaction(transacId);
+    console.log(selectedWalletId + " OOOOOOOOO " + transacId);
     transactionData.forEach((transaction) => {
       document.getElementById("amountAdd").value = transaction.amount;
       document.getElementById("descriptionAdd").value = transaction.description;
