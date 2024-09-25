@@ -14,20 +14,28 @@ public class settle {
 
    //@Autowired
     //TransactionRepository repository;
- 
+    private List<User> allNames;
+    private List<User> allNamesTransactions;
 
      public void walletTransactions(long walletId){
         TransactionServiceImp transactionsAll = new TransactionServiceImp();
      
         //prueba
          walletId = 1;
+         
       List<Transaction> transactions = transactionsAll.getAllTransactionByWalletId(walletId);  //get().transactions(wallet_id);
       
-      List<User> allNames = ("");
-     * allNamesTransactions = [];
-     * for idTransac in transactions:
-     * participants = idTransac["participants"]
-     * #participants = participants.split(",")
+      for (Transaction idTransac : transactions) {
+        String participantString = idTransac.getParticipants();
+        String[] participants = participantString.split(",");
+
+      }
+      
+      /*
+     * 
+      for idTransac in transactions:
+      participants = idTransac["participants"]
+      #participants = participants.split(",")
      * name = idTransac["name"]
      * amount = idTransac["amount"]
      * dats = (name,amount)
