@@ -21,7 +21,7 @@ public class Transaction {
     private Double amount;
 
     @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private Long userId; //el pagador
 
     @Column(name = "wallet_id", nullable = false)
     private Long walletId;

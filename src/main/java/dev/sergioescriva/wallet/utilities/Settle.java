@@ -13,12 +13,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
 import dev.sergioescriva.wallet.models.Transaction;
 import dev.sergioescriva.wallet.models.User;
 
-//import me.spenades.mytravelwallet.models.User;
-//import me.spenades.mytravelwallet.models.Transaccion;
-//import me.spenades.mytravelwallet.models.Usuario;
+
 
 public class Settle{
 
@@ -46,7 +45,7 @@ public class Settle{
         //listaDeParticipan = listaDeUsers;
         double total = 0.0;
         for (Transaction transaction : listaDeTransactions) {
-            double totalLimpiar = Double.valueOf(transaction.getImporte());
+            double totalLimpiar = Double.valueOf(transaction.getAmount());
             total += Double.valueOf(totalLimpiar);
         }
         proximoPagador();
@@ -57,12 +56,12 @@ public class Settle{
 
     //#1
     public ArrayList resolucionDeudaWallet() {
-        Operaciones operaciones = new Operaciones();
+        Operations operaciones = new Operations();
         // Recuperamos deudas por Wallet
         HashMap<Long, String> usuarioIdNombbre = new HashMap<>();
         for (User user : listaDeUsers) {
-            String nombre = user.getNombre();
-            long userId = user.getUserId();
+            String nombre = user.getUsername();
+            long userId = user.getId();
             usuarioIdNombbre.put(userId, nombre);
         }
 
@@ -212,7 +211,7 @@ public class Settle{
 
     //#3 que debería pagar cada user
     public ArrayList<Map> gastosUsersTransactions(List<Transaction> listaDeTransactionsNew) {
-        Operaciones operaciones = new Operaciones();
+        Operations operaciones = new Operations();
         ArrayList<Map> gastoUsers = new ArrayList<>();
 
         // iteramos transacciones sacamos a lo que sale cada user
@@ -225,13 +224,13 @@ public class Settle{
             // Extraemos lo que ha pagado cada user
             Map<Long, Double> deudas = new HashMap<Long, Double>();
             for (int n = 0; n < listaDeUsers.size(); n++) {
-                long userId = listaDeUsers.get(n).getUserId();
+                long userId = listaDeUsers.get(n).getId();
                 double pagado = pagadoPorUser.get(userId);
 
                 // segun se haya pagado o no una cantidad se resta
                 // Comprueba si existe en la lista de users y asigna importes, los demás
                 // a cero
-                String listado = unaTransaction.getUsers();
+                String listado = unaTransaction.getParticipants();
                 String userIdInt = String.valueOf(userId);
                 int existeEnListas1 = listado.indexOf(userIdInt);
 
@@ -269,10 +268,10 @@ public class Settle{
 
         // Creamos un diccionario con lo que ha pagado cada user de esta transacción
         Map<Long, Double> datos = new HashMap<Long, Double>();
-        long nombreId = transaction.getPagadorId();
-        double importe = Double.valueOf(transaction.getImporte());
+        long nombreId = transaction.getUserId();
+        double importe = Double.valueOf(transaction.getAmount());
         for (User unNombre : listaDeUsers) {
-            long nombreIdIndividual = unNombre.getUserId();
+            long nombreIdIndividual = unNombre.getId();
             double importeCero = 0.0;
             datos.put(nombreIdIndividual, importeCero);
         }
@@ -284,12 +283,12 @@ public class Settle{
 
     //#5 Se calcula que debería pagar cada user.
     public double aPagarPorUser(Transaction transaction) {
-        Operaciones operaciones = new Operaciones();
+        Operations operaciones = new Operations();
 
         // Calculamos la deuda total
         double numeroUsers = listaDeParticipan(transaction);
 
-        double importeTransaction = Double.valueOf(transaction.getImporte());
+        double importeTransaction = Double.valueOf(transaction.getAmount());
         double importePorUserLimpiar = importeTransaction / (numeroUsers + 0);
         double importePorUser = operaciones.dosDecimalesDoubleDouble(importePorUserLimpiar);
         return importePorUser;
@@ -329,8 +328,8 @@ public class Settle{
     }
 
     // Compone parte de la pantalla de Gastos Totales.
-    public ArrayList<Spanned> operacionesResolucionDeudas() {
-        Operaciones operaciones = new Operaciones();
+    public ArrayList<String> operacionesResolucionDeudas() {
+        Operations operaciones = new Operations();
         ArrayList<ArrayList> gastosTotalesDivididos = new ArrayList<>();
 
         // Creamos nuevas listas pero sin los gastos que se han pagado para uno mismo.
@@ -338,7 +337,7 @@ public class Settle{
         List<Transaction> listaDeTransactionsSinPropio = listaDeTransactionsSinPropio();
         ArrayList<Map> gastoUsers = gastosUsersTransactions(listaDeTransactionsSinPropio);
         Map<Long, Double> listaDeGastosSinPropio = unificaGastoUserWallet(gastoUsers);
-        ArrayList<Spanned> usersGastos = new ArrayList<>();
+        ArrayList<String> usersGastos = new ArrayList<>();
 
         // Iteramos sobre los gastos para extraer que tendría que haber pagado cada user.
         // donde no estára incluido lo que se haya pagado sólo a si mismo.
@@ -351,8 +350,8 @@ public class Settle{
 
             // Obtenemos de la listaDeGastos los ids, y los iteramos con la listaDeUsers, para obtener el nombre.
             for (User solucionFinal : listaDeUsers) {
-                long userId = solucionFinal.getUserId();
-                String user = solucionFinal.getNombre();
+                long userId = solucionFinal.getId();
+                String user = solucionFinal.getUsername();
 
                 // Añadimos los gastos o cobros por participantes.
                 if (userIdGasto == userId) {
@@ -362,7 +361,7 @@ public class Settle{
                     String importeString = "";
 
                     // Rescatamos importe pagado por cada user
-                    double importeHaPagado = importePagadoParticipante.get(solucionFinal.getUserId());
+                    double importeHaPagado = importePagadoParticipante.get(solucionFinal.getId());
                     String importeHaPagadoString = operaciones.dosDecimalesDoubleString(importeHaPagado);
 
                     // Rescatamos importes a pagar o recibir.
@@ -396,7 +395,7 @@ public class Settle{
                     }
                     String gastoRealizadoEnWallet = String.valueOf(Math.abs(gastoRealizado));
 
-                    Spanned userGastoString = Html.fromHtml(
+                    String userGastoString = (
                             "<strong>" + user + "</strong> adeuda <b>" + gastoRealizadoEnWallet + "€</b><br><i>     Ha pagado " + importeHaPagadoString + "€</i><br>" + importeFinalDebe + importeFinalPagado);
                     usersGastos.add(userGastoString);
                     ArrayList<String> gastosTotales = new ArrayList<>();
@@ -424,15 +423,15 @@ public class Settle{
         double pagadorImporte = 0.0D;
         long pagadorId = 0;
         for (User solucionFinal : listaDeUsers) {
-            long userId = solucionFinal.getUserId();
+            long userId = solucionFinal.getId();
             gastoTotalpagador.put(userId, pagadorImporte);
         }
         // Ahora añadimos lo que realmente ha pagado cada uno.
 
         for (Transaction transaction : listaDeTransactions) {
-            pagadorId = transaction.getPagadorId();
+            pagadorId = transaction.getUserId();
             double importePrevio = gastoTotalpagador.get(pagadorId);
-            importePrevio += Double.parseDouble(transaction.getImporte());
+            importePrevio += Double.parseDouble(transaction.getAmount().toString());
             gastoTotalpagador.replace(pagadorId, importePrevio);
         }
         return gastoTotalpagador;
@@ -443,7 +442,7 @@ public class Settle{
         List<String> lista = new ArrayList<>();
 
         for (User listaCompleta : listaDeUsers) {
-            String nombre = listaCompleta.getNombre();
+            String nombre = listaCompleta.getUsername();
             lista.add(nombre);
         }
         return lista;
@@ -455,7 +454,7 @@ public class Settle{
         List<String> lista = new ArrayList<>();
 
         String participante = "";
-        String participantes = transaction.getUsers().toString();
+        String participantes = transaction.getParticipants().toString();
         String[] listaNumeroDecimal = participantes.split(",");
         int numeroParticipantes = listaNumeroDecimal.length;
         for (String unParticipante : listaNumeroDecimal) {
@@ -467,20 +466,24 @@ public class Settle{
     }
 
 
-    public Usuario proximoPagador() {
+    public User proximoPagador() {
         Map<Long, Double> listaPagadoresId = pagadoPorCadaUser();
         Map<Long, Double> pagadoresIdOrdenados = ordenarTransactions(listaPagadoresId);
 
         Set<Long> pagadoresId = pagadoresIdOrdenados.keySet();
         long pagadorFinalId = pagadoresId.iterator().next();
         //List<String> siguientePagador = new ArrayList<>();
-        Usuario siguientePagador = new Usuario(1);
+        User siguientePagador = new User();
         for (User users : listaDeUsers) {
-            if (pagadorFinalId == users.getUserId()) {
+            if (pagadorFinalId == users.getId()) {
                 //siguientePagador.add(String.valueOf(pagadorFinalId));
                 //siguientePagador.add(users.getNombre());
-                String siguientePagadorNombre = users.getNombre();
-                siguientePagador = new Usuario(siguientePagadorNombre, siguientePagadorNombre, pagadorFinalId);
+                String siguientePagadorNombre = users.getUsername();
+                //siguientePagador = new User(siguientePagadorNombre, siguientePagadorNombre, pagadorFinalId);
+                siguientePagador = new User();
+                siguientePagador.setUsername(siguientePagadorNombre);
+                siguientePagador.setUsername(siguientePagadorNombre);
+                siguientePagador.setId(pagadorFinalId);
             }
         }
         return siguientePagador;
@@ -491,7 +494,7 @@ public class Settle{
         //Añade users y les pone valor 0.0
         Map<Long, Double> datos = new HashMap<Long, Double>();
         for (User participaIdItera : listaDeUsers) {
-            long userId = participaIdItera.getUserId();
+            long userId = participaIdItera.getId();
             double importeCero = 0.0;
             datos.put(userId, importeCero);
         }
@@ -511,9 +514,9 @@ public class Settle{
             long pagadorId = 1;
             for (User participa : listaDeUsers) {
 
-                pagadorId = transaction.getPagadorId();
+                pagadorId = transaction.getUserId();
                 importeAnterior = datos.get(pagadorId);
-                importeTransaction = Double.valueOf(transaction.getImporte());
+                importeTransaction = Double.valueOf(transaction.getAmount());
 
                 // Suma al valor anterior el nuevo valor gastado si lo hay
                 importeNuevo = importeAnterior + importeTransaction;
@@ -532,8 +535,8 @@ public class Settle{
 
         //iteramos sobre los gastos y si es el pagador y participante el mismo no se añade.
         for (Transaction transaction : listaDeTransactions) {
-            long pagadorId = transaction.getPagadorId();
-            String listaParticipantes = transaction.getUsers();
+            long pagadorId = transaction.getUserId();
+            String listaParticipantes = transaction.getParticipants();
             if (listaParticipantes.length() == 1 && listaParticipantes.contains(String.valueOf(pagadorId))) {
 
             } else {
