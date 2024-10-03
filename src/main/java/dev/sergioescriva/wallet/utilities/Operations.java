@@ -1,9 +1,7 @@
 package dev.sergioescriva.wallet.utilities;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
@@ -14,9 +12,7 @@ import dev.sergioescriva.wallet.models.Category;
 import dev.sergioescriva.wallet.models.Transaction;
 import dev.sergioescriva.wallet.models.User;
 
-//import me.spenades.mytravelwallet.models.Category;
-//import me.spenades.mytravelwallet.models.User;
-//import me.spenades.mytravelwallet.models.Transaction;
+
 
 public class Operations {
 
@@ -26,6 +22,7 @@ public class Operations {
     private static List<User> listaParticipan;
     private static long walletId;
 
+    
 
     public static void main(String[] args) {
         listaTransactions = new ArrayList<>();

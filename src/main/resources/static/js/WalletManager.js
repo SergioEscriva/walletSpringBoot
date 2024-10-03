@@ -217,8 +217,8 @@ export class WalletManager {
       );
     const balance = await RequestGet.getBalance(selectedWalletId);
     const balancemin = await RequestGet.getBalanceMin(selectedWalletId);
-    const division = await RequestGet.getDivision(selectedWalletId);
     const membersData = await RequestGet.getMembers(selectedWalletId);
+    const division = await RequestGet.getDivision(selectedWalletId);
     const transactions = WalletManager.domElements.transactions;
     transactions.innerHTML = "";
     transactions.innerHTML += `
